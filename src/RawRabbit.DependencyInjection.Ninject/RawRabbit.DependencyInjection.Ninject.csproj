@@ -5,7 +5,7 @@
     <AssemblyTitle>RawRabbit.DependencyInjection.Ninject</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>par.dahlman;Joshua Barron</Authors>
-    <TargetFrameworks>netstandard2.0;net451</TargetFrameworks>
+    <TargetFrameworks>net9.0;netstandard2.0</TargetFrameworks>
     <AssemblyName>RawRabbit.DependencyInjection.Ninject</AssemblyName>
     <PackageId>RawRabbit.DependencyInjection.Ninject</PackageId>
     <PackageTags>rabbitmq;rawrabbit;ninject;ioc</PackageTags>
