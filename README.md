@@ -7,6 +7,9 @@ _Looking for documentation of 1.x? [Click here](https://github.com/pardahlman/Ra
 ## Quick introduction
 `RawRabbit` is a modern .NET framework for communication over [RabbitMQ](http://rabbitmq.com/). The modular design and middleware oriented architecture makes the client highly customizable while providing sensible default for topology, routing and more. Documentation for version 2.x of the is currently found under [`/docs`](https://github.com/pardahlman/RawRabbit/tree/2.0/docs).
 
+### .NET 9 Support
+RawRabbit now supports .NET 9.0 alongside .NET Standard 2.0 for backward compatibility. The framework has been fully upgraded and tested with .NET 9.
+
 ### Configure, enrich and extend
 
 `RawRabbit` is configured with `RawRabbitOptions`, an options object that makes it possible to register client configuration, plugins as well as override internal services

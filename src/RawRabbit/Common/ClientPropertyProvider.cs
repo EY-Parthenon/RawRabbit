@@ -19,7 +19,7 @@ namespace RawRabbit.Common
 				{ "product", "RawRabbit" },
 				{ "version", typeof(IBusClient).GetTypeInfo().Assembly.GetName().Version.ToString() },
 				{ "platform", ".NET" },
-				{ "client_directory", typeof(IBusClient).GetTypeInfo().Assembly.CodeBase},
+				{ "client_directory", typeof(IBusClient).GetTypeInfo().Assembly.Location},
 				{ "client_server", Environment.MachineName },
 			};
 
