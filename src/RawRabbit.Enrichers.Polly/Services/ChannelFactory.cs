@@ -10,9 +10,9 @@ namespace RawRabbit.Enrichers.Polly.Services
 {
 	public class ChannelFactory : Channel.ChannelFactory
 	{
-		protected Policy CreateChannelPolicy;
-		protected Policy ConnectPolicy;
-		protected Policy GetConnectionPolicy;
+		protected IAsyncPolicy CreateChannelPolicy;
+		protected IAsyncPolicy ConnectPolicy;
+		protected IAsyncPolicy GetConnectionPolicy;
 
 		public ChannelFactory(IConnectionFactory connectionFactory, RawRabbitConfiguration config, ConnectionPolicies policies = null)
 			: base(connectionFactory, config)
@@ -24,39 +24,42 @@ namespace RawRabbit.Enrichers.Polly.Services
 
 		public override Task ConnectAsync(CancellationToken token = default(CancellationToken))
 		{
+			var pollyContext = new Context
+			{
+				[RetryKey.ConnectionFactory] = ConnectionFactory,
+				[RetryKey.ClientConfiguration] = ClientConfig
+			};
 			return ConnectPolicy.ExecuteAsync(
-				action: ct => base.ConnectAsync(ct),
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.ConnectionFactory] = ConnectionFactory,
-					[RetryKey.ClientConfiguration] = ClientConfig
-				},
+				action: (ctx, ct) => base.ConnectAsync(ct),
+				context: pollyContext,
 				cancellationToken: token
 			);
 		}
 
 		protected override Task<IConnection> GetConnectionAsync(CancellationToken token = default(CancellationToken))
 		{
+			var pollyContext = new Context
+			{
+				[RetryKey.ConnectionFactory] = ConnectionFactory,
+				[RetryKey.ClientConfiguration] = ClientConfig
+			};
 			return GetConnectionPolicy.ExecuteAsync(
-				action: ct => base.GetConnectionAsync(ct),
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.ConnectionFactory] = ConnectionFactory,
-					[RetryKey.ClientConfiguration] = ClientConfig
-				},
+				action: (ctx, ct) => base.GetConnectionAsync(ct),
+				context: pollyContext,
 				cancellationToken: token
 			);
 		}
 
 		public override Task<IModel> CreateChannelAsync(CancellationToken token = default(CancellationToken))
 		{
+			var pollyContext = new Context
+			{
+				[RetryKey.ConnectionFactory] = ConnectionFactory,
+				[RetryKey.ClientConfiguration] = ClientConfig
+			};
 			return CreateChannelPolicy.ExecuteAsync(
-				action: ct => base.CreateChannelAsync(ct),
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.ConnectionFactory] = ConnectionFactory,
-					[RetryKey.ClientConfiguration] = ClientConfig
-				},
+				action: (ctx, ct) => base.CreateChannelAsync(ct),
+				context: pollyContext,
 				cancellationToken: token
 			);
 		}
@@ -68,16 +71,16 @@ namespace RawRabbit.Enrichers.Polly.Services
 		/// Used whenever 'CreateChannelAsync' is called.
 		/// Expects an async policy.
 		/// </summary>
-		public Policy CreateChannel { get; set; }
+		public IAsyncPolicy CreateChannel { get; set; }
 
 		/// <summary>
 		/// Used whenever an existing connection is retrieved.
 		/// </summary>
-		public Policy GetConnection { get; set; }
+		public IAsyncPolicy GetConnection { get; set; }
 
 		/// <summary>
 		/// Used when establishing the initial connection
 		/// </summary>
-		public Policy Connect { get; set; }
+		public IAsyncPolicy Connect { get; set; }
 	}
 }

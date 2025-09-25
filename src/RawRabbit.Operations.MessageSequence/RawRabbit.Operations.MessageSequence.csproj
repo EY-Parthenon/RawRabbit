@@ -28,9 +28,4 @@
     <ProjectReference Include="..\RawRabbit.Operations.Tools\RawRabbit.Operations.Tools.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
 </Project>

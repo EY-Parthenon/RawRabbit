@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>RawRabbit.Enrichers.Polly.Tests</AssemblyName>
     <PackageId>RawRabbit.Enrichers.Polly.Tests</PackageId>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>

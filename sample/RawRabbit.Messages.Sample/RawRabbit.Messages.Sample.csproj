@@ -13,9 +13,4 @@
     <ProjectReference Include="..\..\src\RawRabbit.Enrichers.Attributes\RawRabbit.Enrichers.Attributes.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
 </Project>

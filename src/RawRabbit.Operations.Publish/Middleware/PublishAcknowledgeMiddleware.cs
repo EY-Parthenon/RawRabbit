@@ -176,7 +176,7 @@ namespace RawRabbit
 	{
 		public static IPublishContext UsePublishAcknowledge(this IPublishContext context, TimeSpan timeout)
 		{
-			context.Properties.TryAdd(Operations.Publish.PublishKey.PublishAcknowledgeTimeout, timeout);
+			RawRabbit.Pipe.DictionaryExtensions.TryAdd(context.Properties, Operations.Publish.PublishKey.PublishAcknowledgeTimeout, timeout);
 			return context;
 		}
 

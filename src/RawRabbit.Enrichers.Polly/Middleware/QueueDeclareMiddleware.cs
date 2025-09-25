@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Pipe;
@@ -18,16 +19,17 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		protected override Task DeclareQueueAsync(QueueDeclaration queue, IPipeContext context, CancellationToken token)
 		{
 			var policy = context.GetPolicy(PolicyKeys.QueueDeclare);
+			var pollyContext = new Context
+			{
+				[RetryKey.TopologyProvider] = Topology,
+				[RetryKey.QueueDeclaration] = queue,
+				[RetryKey.PipeContext] = context,
+				[RetryKey.CancellationToken] = token,
+			};
 			return policy.ExecuteAsync(
-				action: ct => base.DeclareQueueAsync(queue, context, ct),
-				cancellationToken: token,
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.TopologyProvider] = Topology,
-					[RetryKey.QueueDeclaration] = queue,
-					[RetryKey.PipeContext] = context,
-					[RetryKey.CancellationToken] = token,
-				});
+				action: (ctx, ct) => base.DeclareQueueAsync(queue, context, ct),
+				context: pollyContext,
+				cancellationToken: token);
 		}
 	}
 }
