@@ -6,7 +6,7 @@ namespace RawRabbit.Enrichers.HttpContext
 	{
 		public const string HttpContext = "HttpContext";
 
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0 || NET9_0
 		public static IPipeContext UseHttpContext(this IPipeContext pipeContext, Microsoft.AspNetCore.Http.HttpContext httpContext)
 		{
 			pipeContext.Properties.AddOrReplace(HttpContext, httpContext);
