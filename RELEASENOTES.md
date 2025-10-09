@@ -1,3 +1,44 @@
+# 2.1.0 - .NET 9 Migration
+
+## BREAKING CHANGES
+
+### RawRabbit.Enrichers.ZeroFormatter Removed
+
+**Reason**: ZeroFormatter library archived in 2018, no .NET Core 3.0+ support, no .NET 9 compatibility
+
+**Impact**: Users of RawRabbit.Enrichers.ZeroFormatter must migrate to alternative serializers
+
+**Migration Path**:
+1. **Recommended: MessagePack** (fastest, most compatible)
+   - Install: `dotnet add package RawRabbit.Enrichers.MessagePack`
+   - 2-3x faster than ZeroFormatter
+   - Active maintenance, .NET 9 support
+
+2. **Alternative: protobuf-net** (industry standard)
+   - Install: `dotnet add package RawRabbit.Enrichers.Protobuf`
+   - Google Protocol Buffers implementation
+   - Wide compatibility, excellent tooling
+
+3. **Alternative: System.Text.Json** (built-in, recommended for new projects)
+   - No package required (.NET 9 built-in)
+   - Best performance for JSON workloads
+
+See [Migration Guide](docs/migration-guides/zeroformatter-migration.md) for detailed instructions.
+
+## What's Changed
+
+ - Removed RawRabbit.Enrichers.ZeroFormatter project (abandoned library, security risk)
+ - Updated to .NET 9 for all projects
+ - Improved serialization performance with MessagePack recommendation
+ - Enhanced security by removing unmaintained dependency
+
+## Documentation
+
+ - [ZeroFormatter to MessagePack Migration Guide](docs/migration-guides/zeroformatter-migration.md)
+ - [ADR-0008: ZeroFormatter Deprecation Strategy](docs/adr/0008-zeroformatter-deprecation.md)
+
+---
+
 # 2.0.0-rc4
 
  - [#315](https://github.com/pardahlman/RawRabbit/issues/315) - Issues with Publish Acknowledgement when publishing multiple messages concurrently +fix

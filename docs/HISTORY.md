@@ -3649,3 +3649,54 @@ RESULT: 100% PASS RATE (121+ tests passed, 0 failed). Known limitations: ZeroFor
 **Branch:** stage-4-testing-validation → upgrade
 
 
+
+---
+
+## 2025-10-09 - Stage 5: ZeroFormatter Removal
+
+### What was changed
+
+Removed RawRabbit.Enrichers.ZeroFormatter project, solution references, and integration test references. Created migration guide and updated RELEASENOTES with breaking change notice.
+
+### Why it was changed
+
+ZeroFormatter library archived in 2018 with no .NET 9 support, poses security risk (ADR-0008)
+
+### Impact on the codebase
+
+Breaking change: Users must migrate to MessagePack, protobuf-net, or System.Text.Json. Migration guide provided at docs/migration-guides/zeroformatter-migration.md
+
+
+---
+
+## 2025-10-09 - Stage 5: PerformanceTest Migration
+
+### What was changed
+
+Updated RawRabbit.PerformanceTest from netcoreapp1.1 to net9.0. Updated BenchmarkDotNet from 0.10.3 to 0.14.0. Updated xunit from 2.3.0 to 2.9.2. Changed [Setup]/[Cleanup] attributes to [GlobalSetup]/[GlobalCleanup]. Added nullable reference type support. Fixed all async/await warnings.
+
+### Why it was changed
+
+.NET 9 performance benchmarking support and modern BenchmarkDotNet compatibility
+
+### Impact on the codebase
+
+Performance tests now run on .NET 9 with latest BenchmarkDotNet. All tests compile with 0 errors and 0 warnings.
+
+
+---
+
+## 2025-10-09 - Stage 5: Polly Enricher Migration
+
+### What was changed
+
+Migrated RawRabbit.Enrichers.Polly from Polly 7.2.4 to Polly 8.6.4 for .NET 9 compatibility. Replaced IAsyncPolicy with ResiliencePipeline API throughout. Updated all middleware (QueueDeclare, ExchangeDeclare, QueueBind, ConsumerCreation, BasicPublish, ExplicitAck, PooledChannel, TransientChannel, HandlerInvocation) to use async/await patterns with Polly 8.x ExecuteAsync signatures. Migrated ChannelFactory and ConnectionPolicies to ResiliencePipeline. Updated all tests to use ResiliencePipelineBuilder and RetryStrategyOptions. Build: 0 errors, 15 warnings (nullability). Tests: 3/3 passing. Created comprehensive migration guide at docs/migration-guides/polly-8-migration.md for users upgrading their Polly configurations.
+
+### Why it was changed
+
+Polly 8.x API provides better performance, simplified builder pattern, and full .NET 9 compatibility for resilience patterns
+
+### Impact on the codebase
+
+All RawRabbit resilience features now work on .NET 9 with modern Polly API. Breaking change for users: must update Polly policies to ResiliencePipeline. See migration guide for code examples.
+

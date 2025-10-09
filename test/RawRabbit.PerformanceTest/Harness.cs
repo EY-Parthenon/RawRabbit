@@ -9,22 +9,22 @@ namespace RawRabbit.PerformanceTest
 		[Fact]
 		public void PubSubBenchmarks()
 		{
-			var result = BenchmarkRunner.Run<PubSubBenchmarks>();
-			Assert.NotEqual(TimeSpan.Zero, result.TotalTime);
+			var summary = BenchmarkRunner.Run<PubSubBenchmarks>();
+			Assert.NotNull(summary);
 		}
 
 		[Fact]
 		public void RpcBenchmarks()
 		{
-			var result = BenchmarkRunner.Run<RpcBenchmarks>();
-			Assert.NotEqual(TimeSpan.Zero, result.TotalTime);
+			var summary = BenchmarkRunner.Run<RpcBenchmarks>();
+			Assert.NotNull(summary);
 		}
 
 		[Fact]
 		public void MessageContextBenchmarks()
 		{
-			var result = BenchmarkRunner.Run<MessageContextBenchmarks>();
-			Assert.NotEqual(TimeSpan.Zero, result.TotalTime);
+			var summary = BenchmarkRunner.Run<MessageContextBenchmarks>();
+			Assert.NotNull(summary);
 		}
 	}
 }

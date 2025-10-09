@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- .NET 9 Migration: Using Polly 7.x for backward compatibility (8.x requires significant API changes) -->
-    <PackageReference Include="Polly" Version="7.2.4" />
+    <!-- .NET 9 Migration: Upgraded to Polly 8.x for .NET 9 compatibility and modern resilience patterns -->
+    <PackageReference Include="Polly.Core" Version="8.6.4" />
   </ItemGroup>
 
 </Project>

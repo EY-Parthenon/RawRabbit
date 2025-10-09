@@ -9,13 +9,11 @@ namespace RawRabbit.PerformanceTest
 {
 	public class RpcBenchmarks
 	{
-		private IBusClient _busClient;
-		private Request _request;
-		private Respond _respond;
-		public event EventHandler MessageReceived;
-		public delegate void MessageReceivedEventHandler(EventHandler e);
+		private IBusClient _busClient = null!;
+		private Request _request = null!;
+		private Respond _respond = null!;
 
-		[Setup]
+		[GlobalSetup]
 		public void Setup()
 		{
 			_busClient = RawRabbitFactory.CreateSingleton();
@@ -38,11 +36,11 @@ namespace RawRabbit.PerformanceTest
 			);
 		}
 
-		[Cleanup]
+		[GlobalCleanup]
 		public void Cleanup()
 		{
-			_busClient.DeleteQueueAsync<Request>();
-			(_busClient as IDisposable).Dispose();
+			_ = _busClient.DeleteQueueAsync<Request>();
+			(_busClient as IDisposable)?.Dispose();
 		}
 
 		[Benchmark]

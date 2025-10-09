@@ -13,19 +13,12 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		public ExchangeDeclareMiddleware(ITopologyProvider topologyProvider, ExchangeDeclareOptions options = null)
 			: base(topologyProvider, options) { }
 
-		protected override Task DeclareExchangeAsync(ExchangeDeclaration exchange, IPipeContext context, CancellationToken token)
+		protected override async Task DeclareExchangeAsync(ExchangeDeclaration exchange, IPipeContext context, CancellationToken token)
 		{
 			var policy = context.GetPolicy(PolicyKeys.ExchangeDeclare);
-			return policy.ExecuteAsync(
-				action: ct => base.DeclareExchangeAsync(exchange, context, ct),
-				cancellationToken: token,
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.TopologyProvider] = TopologyProvider,
-					[RetryKey.ExchangeDeclaration] = exchange,
-					[RetryKey.PipeContext] = context,
-					[RetryKey.CancellationToken] = token,
-				});
+			await policy.ExecuteAsync(
+				async ct => await base.DeclareExchangeAsync(exchange, context, ct),
+				token);
 		}
 	}
 }

@@ -15,19 +15,12 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 		}
 
-		protected override Task DeclareQueueAsync(QueueDeclaration queue, IPipeContext context, CancellationToken token)
+		protected override async Task DeclareQueueAsync(QueueDeclaration queue, IPipeContext context, CancellationToken token)
 		{
 			var policy = context.GetPolicy(PolicyKeys.QueueDeclare);
-			return policy.ExecuteAsync(
-				action: ct => base.DeclareQueueAsync(queue, context, ct),
-				cancellationToken: token,
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.TopologyProvider] = Topology,
-					[RetryKey.QueueDeclaration] = queue,
-					[RetryKey.PipeContext] = context,
-					[RetryKey.CancellationToken] = token,
-				});
+			await policy.ExecuteAsync(
+				async ct => await base.DeclareQueueAsync(queue, context, ct),
+				token);
 		}
 	}
 }
