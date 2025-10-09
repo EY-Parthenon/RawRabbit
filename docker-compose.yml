@@ -1,0 +1,198 @@
+version: '3.8'
+
+# RawRabbit .NET 9 Migration - Test Environment
+# Provides multiple RabbitMQ configurations for comprehensive testing
+
+services:
+  # ====================
+  # Single Node (Default)
+  # ====================
+  # Primary test environment for development and CI/CD
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rawrabbit-test-rabbitmq
+    hostname: rabbitmq-single
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - test-network
+
+  # ====================
+  # RabbitMQ 3.11 (LTS)
+  # ====================
+  # Long-term support version for compatibility testing
+  rabbitmq-3-11:
+    image: rabbitmq:3.11-management
+    container_name: rawrabbit-test-rabbitmq-3-11
+    hostname: rabbitmq-3-11
+    ports:
+      - "5673:5672"   # AMQP (alternate port)
+      - "15673:15672" # Management UI (alternate port)
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - rabbitmq-3-11-data:/var/lib/rabbitmq
+    networks:
+      - test-network
+    profiles:
+      - compatibility
+
+  # ====================
+  # SSL/TLS Node
+  # ====================
+  # For security and TLS connection testing
+  rabbitmq-ssl:
+    image: rabbitmq:3.12-management
+    container_name: rawrabbit-test-rabbitmq-ssl
+    hostname: rabbitmq-ssl
+    ports:
+      - "5671:5671"   # AMQPS
+      - "15671:15671" # Management UI (HTTPS)
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_SSL_CACERTFILE: /etc/rabbitmq/ca-cert.pem
+      RABBITMQ_SSL_CERTFILE: /etc/rabbitmq/server-cert.pem
+      RABBITMQ_SSL_KEYFILE: /etc/rabbitmq/server-key.pem
+      RABBITMQ_SSL_VERIFY: verify_peer
+      RABBITMQ_SSL_FAIL_IF_NO_PEER_CERT: "false"
+    volumes:
+      - ./test/certificates:/etc/rabbitmq/:ro
+      - rabbitmq-ssl-data:/var/lib/rabbitmq
+    networks:
+      - test-network
+    profiles:
+      - ssl
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ====================
+  # Cluster Node 1
+  # ====================
+  # First node in 3-node cluster for HA testing
+  rabbitmq-cluster-node1:
+    image: rabbitmq:3.12-management
+    container_name: rawrabbit-cluster-node1
+    hostname: rabbitmq-node1
+    ports:
+      - "5674:5672"   # AMQP
+      - "15674:15672" # Management UI
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'rawrabbit-test-secret-cookie'
+      RABBITMQ_NODENAME: rabbit@rabbitmq-node1
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-cluster-node1-data:/var/lib/rabbitmq
+    networks:
+      - test-network
+    profiles:
+      - cluster
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ====================
+  # Cluster Node 2
+  # ====================
+  # Second node in 3-node cluster
+  rabbitmq-cluster-node2:
+    image: rabbitmq:3.12-management
+    container_name: rawrabbit-cluster-node2
+    hostname: rabbitmq-node2
+    ports:
+      - "5675:5672"   # AMQP
+      - "15675:15672" # Management UI
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'rawrabbit-test-secret-cookie'
+      RABBITMQ_NODENAME: rabbit@rabbitmq-node2
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-cluster-node2-data:/var/lib/rabbitmq
+    networks:
+      - test-network
+    profiles:
+      - cluster
+    depends_on:
+      rabbitmq-cluster-node1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ====================
+  # Cluster Node 3
+  # ====================
+  # Third node in 3-node cluster
+  rabbitmq-cluster-node3:
+    image: rabbitmq:3.12-management
+    container_name: rawrabbit-cluster-node3
+    hostname: rabbitmq-node3
+    ports:
+      - "5676:5672"   # AMQP
+      - "15676:15672" # Management UI
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'rawrabbit-test-secret-cookie'
+      RABBITMQ_NODENAME: rabbit@rabbitmq-node3
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-cluster-node3-data:/var/lib/rabbitmq
+    networks:
+      - test-network
+    profiles:
+      - cluster
+    depends_on:
+      rabbitmq-cluster-node1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  test-network:
+    driver: bridge
+    name: rawrabbit-test-network
+
+volumes:
+  rabbitmq-data:
+    name: rawrabbit-test-rabbitmq-data
+  rabbitmq-3-11-data:
+    name: rawrabbit-test-rabbitmq-3-11-data
+  rabbitmq-ssl-data:
+    name: rawrabbit-test-rabbitmq-ssl-data
+  rabbitmq-cluster-node1-data:
+    name: rawrabbit-test-cluster-node1-data
+  rabbitmq-cluster-node2-data:
+    name: rawrabbit-test-cluster-node2-data
+  rabbitmq-cluster-node3-data:
+    name: rawrabbit-test-cluster-node3-data
