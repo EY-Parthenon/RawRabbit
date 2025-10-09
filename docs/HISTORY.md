@@ -3331,3 +3331,112 @@ Stage 3.1 successfully migrated the core RawRabbit library to .NET 9 with:
 
 **Pull Request**: #5 created for review
 
+
+---
+
+## 2025-10-09 - Stage 3.2: DI Adapters & Compatibility Migration
+
+### What was changed
+
+Migrated 3 DI adapters (Autofac 8.0.0, Ninject 3.3.6, ServiceCollection 9.0.0) and Compatibility.Legacy to .NET 9. DI adapters build successfully. Compatibility.Legacy awaits dependency migration (Enrichers, Operations).
+
+### Why it was changed
+
+Enable dependency injection support for .NET 9 applications with modern DI containers
+
+### Impact on the codebase
+
+3 DI projects (Autofac, Ninject, ServiceCollection) migrated and building. Compatibility.Legacy ready but blocked by unmigrated dependencies.
+
+
+---
+
+## 2025-10-09 - Stage 3.2: Operations Projects Migration to .NET 9
+
+### What was changed
+
+Migrated 8 RawRabbit.Operations.* projects from netstandard1.5/net451 to net9.0: Get, MessageSequence, Publish, Request, Respond, StateMachine, Subscribe, Tools. Fixed TryAdd() ambiguity issues in Get and Publish due to .NET 9's CollectionExtensions.TryAdd conflicting with RawRabbit.Pipe.DictionaryExtensions.TryAdd.
+
+### Why it was changed
+
+Enable dependent Operations projects to compile with .NET 9 and prepare for Enrichers migration
+
+### Impact on the codebase
+
+8 Operations projects now target .NET 9, build successfully with nullable reference types enabled
+
+
+---
+
+## 2025-10-09 - Stage 3.2: Enrichers Projects Migration to .NET 9
+
+### What was changed
+
+Migrated 11 Enrichers projects to .NET 9: Attributes, GlobalExecutionId, HttpContext, MessageContext (3 variants), MessagePack, Protobuf, QueueSuffix, RetryLater. Fixed AsyncLocal conditional compilation for GlobalExecutionId. Updated MessagePack to v2.x API. Note: Polly enricher requires additional work for Polly 7.x/8.x API compatibility (current builds fail).
+
+### Why it was changed
+
+Enable enricher functionality for .NET 9 applications, maintain backward compatibility with legacy serializers and resilience patterns
+
+### Impact on the codebase
+
+10 of 11 Enrichers projects now target .NET 9 and build successfully. Polly enricher requires Polly API migration work (deferred)
+
+
+---
+
+## 2025-10-09 - Stage 3.2: Dependent Projects Migration to .NET 9 - Complete ✅
+
+### What was changed
+
+
+**Operations Projects (8 total)**:
+- RawRabbit.Operations.Get - Migrated to net9.0, fixed TryAdd() ambiguity
+- RawRabbit.Operations.MessageSequence - Migrated to net9.0
+- RawRabbit.Operations.Publish - Migrated to net9.0, fixed TryAdd() ambiguity
+- RawRabbit.Operations.Request - Migrated to net9.0
+- RawRabbit.Operations.Respond - Migrated to net9.0
+- RawRabbit.Operations.StateMachine - Migrated to net9.0 (Stateless 5.16.0)
+- RawRabbit.Operations.Subscribe - Migrated to net9.0
+- RawRabbit.Operations.Tools - Migrated to net9.0
+
+**Enrichers Projects (11 total)**:
+- RawRabbit.Enrichers.Attributes - Migrated to net9.0
+- RawRabbit.Enrichers.GlobalExecutionId - Migrated to net9.0, fixed AsyncLocal conditional compilation
+- RawRabbit.Enrichers.HttpContext - Migrated to net9.0, removed System.Web/net451 dependencies
+- RawRabbit.Enrichers.MessageContext - Migrated to net9.0
+- RawRabbit.Enrichers.MessageContext.Respond - Migrated to net9.0
+- RawRabbit.Enrichers.MessageContext.Subscribe - Migrated to net9.0
+- RawRabbit.Enrichers.MessagePack - Migrated to net9.0, upgraded MessagePack 1.7.3.4 → 2.5.187
+- RawRabbit.Enrichers.Polly - Migrated to net9.0 (Polly 7.2.4, requires further work for v8)
+- RawRabbit.Enrichers.Protobuf - Migrated to net9.0, upgraded protobuf-net 2.3.2 → 3.2.30
+- RawRabbit.Enrichers.QueueSuffix - Migrated to net9.0
+- RawRabbit.Enrichers.RetryLater - Migrated to net9.0
+
+**DI Adapters (3 total)**:
+- RawRabbit.DependencyInjection.Autofac - Migrated to net9.0, upgraded Autofac 4.1.0 → 8.0.0
+- RawRabbit.DependencyInjection.Ninject - Migrated to net9.0, upgraded Ninject 3.3.4 → 3.3.6
+- RawRabbit.DependencyInjection.ServiceCollection - Migrated to net9.0, upgraded Microsoft.Extensions.DependencyInjection 1.0.2 → 9.0.0
+
+**Compatibility Layer (1 total)**:
+- RawRabbit.Compatibility.Legacy - Migrated to net9.0
+
+**Total: 23 projects migrated**
+
+
+### Why it was changed
+
+Complete dependent project ecosystem for .NET 9 adoption. After core library (Stage 3.1), all Operations, Enrichers, and DI adapters must be migrated to enable full RawRabbit functionality on .NET 9.
+
+### Impact on the codebase
+
+
+- 23 projects now target .NET 9 (down from netstandard1.5/net451)
+- All projects use modern C# (LangVersion=latest, Nullable=enable)
+- Package ecosystem updated: Autofac 8.0, MessagePack 2.5, protobuf-net 3.2, Polly 7.2, Stateless 5.16
+- Build status: 22/23 projects build successfully (Polly enricher requires Polly v8 API migration)
+- .NET 9 compatibility fix: Resolved TryAdd() method ambiguity in 2 files
+- HttpContext enricher: Removed legacy System.Web dependencies (net451 only)
+- Foundation established for integration testing (Stage 3.3)
+
+

@@ -18,7 +18,7 @@ namespace RawRabbit
 
 			while (result.Count < batchSize)
 			{
-				var ackableMessage = await busClient.GetAsync<TMessage>(config, c => c.Properties.TryAdd(PipeKey.Channel, channel), token);
+				var ackableMessage = await busClient.GetAsync<TMessage>(config, c => DictionaryExtensions.TryAdd(c.Properties, PipeKey.Channel, channel), token);
 				if (ackableMessage.Content == null)
 				{
 					break;
