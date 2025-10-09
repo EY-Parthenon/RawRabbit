@@ -26,13 +26,13 @@ namespace RawRabbit.Common
 			_lockDictionary = new ConcurrentDictionary<object, object>();
 		}
 
-		public Task<object> AquireAsync(object obj, CancellationToken token = default(CancellationToken))
+		public async Task<object> AquireAsync(object obj, CancellationToken token = default(CancellationToken))
 		{
 			var theLock = _lockDictionary.GetOrAdd(obj, o => new object());
 			var semaphore = _semaphoreDictionary.GetOrAdd(theLock, o => new SemaphoreSlim(1,1));
-			return semaphore
-				.WaitAsync(token)
-				.ContinueWith(t => theLock, token);
+			// .NET 9: Use async/await instead of ContinueWith for better performance and error handling
+			await semaphore.WaitAsync(token).ConfigureAwait(false);
+			return theLock;
 		}
 
 		public Task ReleaseAsync(object obj)
@@ -65,10 +65,11 @@ namespace RawRabbit.Common
 		{
 			var theLock = _lockDictionary.GetOrAdd(obj, o => new object());
 			var semaphore = _semaphoreDictionary.GetOrAdd(theLock, o => new SemaphoreSlim(1, 1));
-			await semaphore.WaitAsync(token);
+			// .NET 9: Add ConfigureAwait(false) per ADR-0017 to avoid deadlocks
+			await semaphore.WaitAsync(token).ConfigureAwait(false);
 			try
 			{
-				await func(obj);
+				await func(obj).ConfigureAwait(false);
 			}
 			catch (Exception e)
 			{

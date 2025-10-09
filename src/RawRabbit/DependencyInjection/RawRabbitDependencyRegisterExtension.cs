@@ -54,7 +54,12 @@ namespace RawRabbit.DependencyInjection
 					ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
 					ObjectCreationHandling = ObjectCreationHandling.Auto,
 					DefaultValueHandling = DefaultValueHandling.Ignore,
-					TypeNameHandling = TypeNameHandling.Auto,
+					// SECURITY FIX: Changed from TypeNameHandling.Auto to TypeNameHandling.None
+					// to prevent Remote Code Execution (RCE) vulnerability CVE-2022-24999
+					// TypeNameHandling.Auto allows arbitrary type instantiation from JSON payloads
+					// which can be exploited for malicious code execution.
+					// Per ADR-0019: Use TypeNameHandling.None for secure deserialization.
+					TypeNameHandling = TypeNameHandling.None,
 					ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
 					MissingMemberHandling = MissingMemberHandling.Ignore,
 					PreserveReferencesHandling = PreserveReferencesHandling.Objects,
