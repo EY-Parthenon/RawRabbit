@@ -1,0 +1,150 @@
+```mermaid
+graph TD
+    %% Core Foundation
+    Core[RawRabbit Core<br/>Week 3]
+
+    %% Tier 1: Simple Dependencies (Week 3.5-4)
+    subgraph Tier1[Tier 1 - Week 3.5-4]
+        Pub[Operations.Publish]
+        Sub[Operations.Subscribe]
+        Req[Operations.Request]
+        Res[Operations.Respond]
+        Get[Operations.Get]
+        Tools[Operations.Tools]
+
+        MC[Enrichers.MessageContext]
+        Attr[Enrichers.Attributes]
+        ExecId[Enrichers.GlobalExecutionId]
+        Queue[Enrichers.QueueSuffix]
+        Polly[Enrichers.Polly<br/>+ Polly 8.x]
+        Retry[Enrichers.RetryLater]
+    end
+
+    %% Tier 2: Composite Operations (Week 4.5-5.5)
+    subgraph Tier2[Tier 2 - Week 4.5-5.5]
+        MCSub[Enrichers.MessageContext<br/>.Subscribe]
+        MCRes[Enrichers.MessageContext<br/>.Respond]
+        SM[Operations.StateMachine<br/>+ Stateless 5.x]
+    end
+
+    %% Tier 3: Complex Integration (Week 5-6)
+    subgraph Tier3[Tier 3 - Week 5-6]
+        MSeq[Operations.MessageSequence<br/>COMPLEX DEPENDENCIES]
+    end
+
+    %% Tier 4: Framework Integration (Week 5.5-6)
+    subgraph Tier4[Tier 4 - Week 5.5-6]
+        Http[Enrichers.HttpContext<br/>ASP.NET Core 9.x]
+        Proto[Enrichers.Protobuf]
+        MP[Enrichers.MessagePack]
+        Zero[Enrichers.ZeroFormatter<br/>DEPRECATED?]
+    end
+
+    %% Tier 5: DI Adapters (Week 7)
+    subgraph Tier5[Tier 5 - Week 7]
+        DI1[DI.ServiceCollection<br/>MS.Extensions.DI 9.x]
+        DI2[DI.Autofac<br/>Autofac 8.x]
+        DI3[DI.Ninject<br/>DEPRECATED?]
+    end
+
+    %% Dependencies
+    Core --> Pub
+    Core --> Sub
+    Core --> Req
+    Core --> Res
+    Core --> Get
+    Core --> Tools
+    Core --> MC
+    Core --> Attr
+    Core --> ExecId
+    Core --> Queue
+    Core --> Polly
+    Core --> Retry
+
+    Sub --> MCSub
+    Sub --> SM
+    Res --> MCRes
+
+    %% MessageSequence complex dependencies
+    Pub --> MSeq
+    ExecId --> MSeq
+    MCSub --> MSeq
+    SM --> MSeq
+    Tools --> MSeq
+
+    Core --> Http
+    Core --> Proto
+    Core --> MP
+    Core --> Zero
+
+    Core --> DI1
+    Core --> DI2
+    Core --> DI3
+
+    %% Styling
+    classDef critical fill:#ff6b6b,stroke:#c92a2a,stroke-width:3px,color:#fff
+    classDef complex fill:#ffd93d,stroke:#f59f00,stroke-width:2px
+    classDef deprecated fill:#a8dadc,stroke:#e63946,stroke-width:3px,stroke-dasharray: 5 5
+    classDef framework fill:#b197fc,stroke:#7950f2,stroke-width:2px
+
+    class Core critical
+    class MSeq complex
+    class Zero,DI3 deprecated
+    class Http,Polly,SM framework
+
+    %% Notes
+    Note1[Notes:<br/>1. Week 3: Core + RabbitMQ.Client 7.x<br/>2. Tier 1: 9 projects in parallel<br/>3. MessageSequence: 5 dependencies<br/>4. ZeroFormatter: Likely deprecated<br/>5. Ninject: Verify .NET 9 support]
+
+    style Note1 fill:#fff3bf,stroke:#f59f00,stroke-width:2px,text-align:left
+```
+
+## Dependency Tiers Summary
+
+### Tier 0: Core (Week 3)
+- **RawRabbit** - Foundation library
+- **Critical**: RabbitMQ.Client 5.0.1 → 7.x migration
+- **Critical**: Newtonsoft.Json 10.0.1 → 13.x
+
+### Tier 1: Simple Dependencies (Week 3.5-4)
+**Operations (6 projects)**:
+- Publish, Subscribe, Request, Respond, Get, Tools
+
+**Enrichers (6 projects)**:
+- MessageContext, Attributes, GlobalExecutionId, QueueSuffix, Polly, RetryLater
+
+### Tier 2: Composite Operations (Week 4.5-5.5)
+- MessageContext.Subscribe (depends on Operations.Subscribe)
+- MessageContext.Respond (depends on Operations.Respond)
+- Operations.StateMachine (depends on Subscribe + Stateless package)
+
+### Tier 3: Complex Integration (Week 5-6)
+- **Operations.MessageSequence** - Longest dependency chain:
+  - GlobalExecutionId
+  - Operations.Publish
+  - Enrichers.MessageContext.Subscribe
+  - Operations.StateMachine
+  - Operations.Tools
+
+### Tier 4: Framework Integration (Week 5.5-6)
+- HttpContext (ASP.NET Core migration)
+- Protobuf, MessagePack
+- ZeroFormatter (DECISION REQUIRED)
+
+### Tier 5: DI Adapters (Week 7)
+- ServiceCollection (primary)
+- Autofac (verify compatibility)
+- Ninject (DECISION REQUIRED)
+
+## Critical Path
+
+```
+Core (Week 3)
+  → Operations.Publish + Subscribe + Tools (Week 3.5-4)
+  → GlobalExecutionId (Week 3.5-4)
+  → Operations.StateMachine (Week 4.5-5)
+  → MessageContext.Subscribe (Week 4.5-5)
+  → MessageSequence (Week 5-6)
+```
+
+**Duration**: 3 weeks (Week 3 → Week 6)
+**Parallelization**: 12 projects can migrate concurrently in Tier 1

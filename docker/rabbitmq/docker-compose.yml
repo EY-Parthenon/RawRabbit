@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  rabbitmq-3.12:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rawrabbit-test-rabbitmq-3.12
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq-3.11:
+    image: rabbitmq:3.11-management-alpine
+    container_name: rawrabbit-test-rabbitmq-3.11
+    ports:
+      - "5673:5672"   # AMQP (different port)
+      - "15673:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

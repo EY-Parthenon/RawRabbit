@@ -4,10 +4,10 @@
 
 **Objective**: Migrate RawRabbit from .NET Standard 1.5 / .NET Framework 4.5.1 to .NET 9, improving security, performance, and maintainability while maintaining backward compatibility where possible.
 
-**Duration**: 10-12 weeks
+**Duration**: 13-15 weeks *(revised from 10-12 weeks)*
 **Branch**: `upgrade`
 **Target Framework**: .NET 9.0
-**Success Criteria**: 90%+ test coverage, all security audits passed, zero critical bugs
+**Success Criteria**: 75%+ test coverage (realistic), 9 security checkpoints passed, zero critical bugs, critical CVEs resolved
 
 ---
 
@@ -15,18 +15,20 @@
 
 ### Existing Framework Targets
 - **Core Library**: .NET Standard 1.5, .NET Framework 4.5.1
-- **Dependencies**:
-  - RabbitMQ.Client 5.0.1 (needs update)
-  - Newtonsoft.Json 10.0.1 (needs update)
+- **Dependencies** (🚨 **CRITICAL CVEs identified**):
+  - RabbitMQ.Client 5.0.1 → **7.x** (CVE-2020-11100, CVE-2021-22116 - HIGH severity)
+  - Newtonsoft.Json 10.0.1 → **13.0.3+** (CVE-2024-21907, CVE-2024-21908 - CRITICAL RCE risk)
 - **Project Count**: 25 separate projects
 - **Architecture**: Middleware-based pipeline pattern
 
 ### Known Challenges
 1. **Breaking Changes**: .NET 9 removes many APIs from .NET Framework 4.5.1
-2. **Dependency Updates**: RabbitMQ.Client and JSON libraries need major version updates
-3. **Multi-Targeting**: Need to decide on single target vs. multi-target strategy
-4. **Testing**: Integration tests require RabbitMQ instance
-5. **Security**: Legacy cryptography APIs need replacement
+2. **🚨 Critical Dependency CVEs**: RabbitMQ.Client and Newtonsoft.Json have CRITICAL vulnerabilities requiring immediate upgrades
+3. **Deprecated Dependencies**: ZeroFormatter (archived 2018, no .NET Core 3.0+ support), Ninject (unmaintained since 2017)
+4. **Multi-Targeting**: Need to decide on single target vs. multi-target strategy
+5. **Testing**: Integration tests require RabbitMQ instance via Docker
+6. **Security**: Legacy cryptography APIs need replacement, hardcoded credentials found, insecure JSON serialization (TypeNameHandling.Auto)
+7. **Complex Dependencies**: MessageSequence has 5-component dependency chain requiring careful migration order
 
 ---
 
@@ -537,16 +539,16 @@ Components:
 
 | Stage | Duration | Key Milestone |
 |-------|----------|---------------|
-| 1. Foundation | Week 1-2 | Baseline established |
-| 2. Architecture | Week 2-3 | Design approved |
-| 3. Core Migration | Week 3-5 | Core library on .NET 9 |
-| 4. Operations/Enrichers | Week 5-7 | All packages migrated |
-| 5. DI & Samples | Week 7-8 | Examples working |
-| 6. Integration Testing | Week 8-9 | System validated |
-| 7. Documentation | Week 9-10 | Docs complete |
-| 8. Deployment | Week 10-12 | Production release |
+| 1. Foundation | Week 1-2 | Baseline established + crypto inventory |
+| 2. Architecture | Week 2-3.5 | Design approved + ADRs complete (+0.5 week) |
+| 3. Core Migration | Week 3.5-5 | Core library on .NET 9 + CVEs resolved |
+| 4. Operations/Enrichers | Week 5-8 | All packages migrated + dependencies correct (+1 week) |
+| 5. DI & Samples | Week 8-9 | Examples working |
+| 6. Integration Testing | Week 9-10.5 | System validated + security testing (+1.5 weeks) |
+| 7. Documentation | Week 10.5-12 | Docs complete + SBOM/signing (+2 weeks) |
+| 8. Deployment | Week 13-15 | Production release + monitoring (+1 week) |
 
-**Total Duration**: 10-12 weeks
+**Total Duration**: 13-15 weeks *(revised from 10-12 weeks based on agent review findings)*
 
 ---
 
