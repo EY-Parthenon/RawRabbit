@@ -31,7 +31,9 @@ namespace RawRabbit.Channel
 			try
 			{
 				_logger.Debug("Creating a new connection for {hostNameCount} hosts.", ClientConfig.Hostnames.Count);
-				Connection = ConnectionFactory.CreateConnection(ClientConfig.Hostnames, ClientConfig.ClientProvidedName);
+				// RabbitMQ.Client 5.2.0 only supports CreateConnection(IList<string>)
+				// The two-parameter overload with ClientProvidedName was added in 6.x+
+				Connection = ConnectionFactory.CreateConnection(ClientConfig.Hostnames);
 				Connection.ConnectionShutdown += (sender, args) =>
 					_logger.Warn("Connection was shutdown by {Initiator}. ReplyText {ReplyText}", args.Initiator, args.ReplyText);
 			}

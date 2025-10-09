@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- General Run Configuration -->
+  <RunConfiguration>
+    <!-- Maximum number of CPU cores to use for parallel test execution -->
+    <MaxCpuCount>4</MaxCpuCount>
+
+    <!-- Test session timeout: 10 minutes (600,000 milliseconds) -->
+    <TestSessionTimeout>600000</TestSessionTimeout>
+
+    <!-- Results directory for test output -->
+    <ResultsDirectory>./TestResults</ResultsDirectory>
+
+    <!-- Target platform for test execution -->
+    <TargetPlatform>x64</TargetPlatform>
+
+    <!-- Collect data during test run -->
+    <CollectSourceInformation>true</CollectSourceInformation>
+  </RunConfiguration>
+
+  <!-- xUnit-specific Configuration -->
+  <xUnit>
+    <!-- Maximum parallel threads: optimize for multi-core execution -->
+    <MaxParallelThreads>4</MaxParallelThreads>
+
+    <!-- Enable parallel test collection execution -->
+    <ParallelizeTestCollections>true</ParallelizeTestCollections>
+
+    <!-- Enable diagnostic messages for debugging -->
+    <DiagnosticMessages>true</DiagnosticMessages>
+
+    <!-- Method display options -->
+    <MethodDisplay>method</MethodDisplay>
+
+    <!-- Internal diagnostic messages -->
+    <InternalDiagnosticMessages>false</InternalDiagnosticMessages>
+  </xUnit>
+
+  <!-- Data Collection Configuration -->
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <!-- Code Coverage Data Collector -->
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Exclude>[xunit.*]*,[*.Tests]*</Exclude>
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+
+  <!-- Logger Configuration -->
+  <LoggerRunSettings>
+    <Loggers>
+      <Logger friendlyName="console" enabled="True">
+        <Configuration>
+          <Verbosity>detailed</Verbosity>
+        </Configuration>
+      </Logger>
+      <Logger friendlyName="trx" enabled="True">
+        <Configuration>
+          <LogFileName>test-results.trx</LogFileName>
+        </Configuration>
+      </Logger>
+    </Loggers>
+  </LoggerRunSettings>
+</RunSettings>

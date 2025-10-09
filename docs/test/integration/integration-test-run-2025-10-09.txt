@@ -1,0 +1,165 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  RawRabbit -> /home/laird/src/EYP/RawRabbit/src/RawRabbit/bin/Debug/net9.0/RawRabbit.dll
+  RawRabbit.Enrichers.GlobalExecutionId -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.GlobalExecutionId/bin/Debug/net9.0/RawRabbit.Enrichers.GlobalExecutionId.dll
+  RawRabbit.Operations.Publish -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.Publish/bin/Debug/net9.0/RawRabbit.Operations.Publish.dll
+  RawRabbit.DependencyInjection.Ninject -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.DependencyInjection.Ninject/bin/Debug/net9.0/RawRabbit.DependencyInjection.Ninject.dll
+  RawRabbit.DependencyInjection.Autofac -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.DependencyInjection.Autofac/bin/Debug/net9.0/RawRabbit.DependencyInjection.Autofac.dll
+  RawRabbit.Enrichers.Attributes -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.Attributes/bin/Debug/net9.0/RawRabbit.Enrichers.Attributes.dll
+  RawRabbit.Enrichers.QueueSuffix -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.QueueSuffix/bin/Debug/net9.0/RawRabbit.Enrichers.QueueSuffix.dll
+  RawRabbit.Enrichers.MessagePack -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.MessagePack/bin/Debug/net9.0/RawRabbit.Enrichers.MessagePack.dll
+  RawRabbit.Operations.Request -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.Request/bin/Debug/net9.0/RawRabbit.Operations.Request.dll
+  RawRabbit.Operations.Respond -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.Respond/bin/Debug/net9.0/RawRabbit.Operations.Respond.dll
+  RawRabbit.Enrichers.MessageContext -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.MessageContext/bin/Debug/net9.0/RawRabbit.Enrichers.MessageContext.dll
+  RawRabbit.Operations.Tools -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.Tools/bin/Debug/net9.0/RawRabbit.Operations.Tools.dll
+  RawRabbit.Operations.Subscribe -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.Subscribe/bin/Debug/net9.0/RawRabbit.Operations.Subscribe.dll
+  RawRabbit.Enrichers.Protobuf -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.Protobuf/bin/Debug/net9.0/RawRabbit.Enrichers.Protobuf.dll
+  RawRabbit.Enrichers.MessageContext.Respond -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.MessageContext.Respond/bin/Debug/net9.0/RawRabbit.Enrichers.MessageContext.Respond.dll
+  RawRabbit.Enrichers.RetryLater -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.RetryLater/bin/Debug/net9.0/RawRabbit.Enrichers.RetryLater.dll
+  RawRabbit.Operations.Get -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.Get/bin/Debug/net9.0/RawRabbit.Operations.Get.dll
+  RawRabbit.Enrichers.MessageContext.Subscribe -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Enrichers.MessageContext.Subscribe/bin/Debug/net9.0/RawRabbit.Enrichers.MessageContext.Subscribe.dll
+  RawRabbit.Operations.StateMachine -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.StateMachine/bin/Debug/net9.0/RawRabbit.Operations.StateMachine.dll
+  RawRabbit.Compatibility.Legacy -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Compatibility.Legacy/bin/Debug/net9.0/RawRabbit.Compatibility.Legacy.dll
+  RawRabbit.Operations.MessageSequence -> /home/laird/src/EYP/RawRabbit/src/RawRabbit.Operations.MessageSequence/bin/Debug/net9.0/RawRabbit.Operations.MessageSequence.dll
+  RawRabbit.IntegrationTests -> /home/laird/src/EYP/RawRabbit/test/RawRabbit.IntegrationTests/bin/Debug/net9.0/RawRabbit.IntegrationTests.dll
+Test run for /home/laird/src/EYP/RawRabbit/test/RawRabbit.IntegrationTests/bin/Debug/net9.0/RawRabbit.IntegrationTests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+/home/laird/src/EYP/RawRabbit/test/RawRabbit.IntegrationTests/bin/Debug/net9.0/RawRabbit.IntegrationTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.9)
+[xUnit.net 00:00:00.31]   Discovering: RawRabbit.IntegrationTests (method display = ClassAndMethod, method display options = None)
+[xUnit.net 00:00:00.43]   Discovered:  RawRabbit.IntegrationTests (found 112 test cases)
+[xUnit.net 00:00:00.44]   Starting:    RawRabbit.IntegrationTests (parallel test collections = off, stop on fail = off)
+  Passed RawRabbit.IntegrationTests.Enrichers.MessagePackTests.Should_Publish_And_Subscribe_with_Zero_Formatter [607 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcTimeoutTests.Should_Not_Time_out_If_Response_Is_Received [137 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcTimeoutTests.Should_Not_Use_Timeout_If_Cancellation_Token_Is_Provided [771 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcTimeoutTests.Should_Throw_Timeout_Exception_If_Response_Is_Not_Received [120 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcFundamentalTests.Should_Return_Response_When_Using_Custom_Request_And_Response_Configuration [82 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcFundamentalTests.Should_Return_Respose_Without_Any_Additional_Configuration [47 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcFundamentalTests.Should_Work_With_Dedicated_Consumer_And_Custom_Response_Queue [193 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.MandatoryCallbackTests.Should_Not_Invoke_Mandatory_Callback_If_Message_Is_Undelivered [258 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.MandatoryCallbackTests.Should_Invoke_Mandatory_Callback_If_Message_Is_Undelivered [49 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.ProtobufTests.Should_Perform_Rpc_With_Messages_Serialized_With_Protobuf [178 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.ProtobufTests.Should_Throw_Exception_If_Responder_Can_Not_Deserialize_Request_And_Content_Type_Check_Is_Activated [79 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.ProtobufTests.Should_Deliver_And_Reiieve_Messages_Serialized_With_Protobuf [42 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.ProtobufTests.Should_Publish_Message_To_Error_Exchange_If_Serializer_Mismatch [67 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.AcknowledgementRespondTests.Should_Be_Able_To_Return_Nack [77 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.AcknowledgementRespondTests.Should_Be_Able_To_Return_Ack [56 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.AcknowledgementRespondTests.Should_Be_Able_To_Return_Reject [65 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.AcknowledgementRespondTests.Should_Be_Able_To_Auto_Ack [49 ms]
+  Passed RawRabbit.IntegrationTests.StateMachine.StateMachineTests.Should_Complete_Generic_Task [351 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.CancellationTests.Should_Honor_Task_Cancellation [136 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.RetryLaterEnricherTests.Should_Update_Retry_Information_Correctly [542 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Nack_With_Requeue_From_Subscriber_With_Context [60 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Retry [1 s]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Nack_With_Requeue [56 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Ack [47 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Reject_With_Requeue [55 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Auto_Ack [52 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Retry_Multiple_Times [2 s]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Ack_From_Subscriber_With_Context [40 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Nack_Without_Requeue [250 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Handle_Concurrent_Retries [1 s]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Reject_With_Requeue_From_Subscriber_With_Context [63 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Retry_From_Subscriber_With_Context [1 s]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.AcknowledgementSubscribeTests.Should_Be_Able_To_Return_Nack_Without_Requeue_From_Handler_With_Context [257 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.AutofacTests.Should_Be_Able_To_Resolve_Client_From_Autofac [100 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.AutofacTests.Should_Honor_Client_Configuration [11 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.AutofacTests.Should_Be_Able_To_Publish_Message_From_Resolved_Client [50 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.AutofacTests.Should_Be_Able_To_Resolve_Client_With_Plugins_From_Autofac [7 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Honor_Exchange_Name_Configuration [38 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Honor_Complex_Configuration [39 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Consume_Message_Already_In_Queue [64 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Be_Able_To_Create_Unique_Queues_With_Naming_Suffix [75 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Work_Without_Any_Additional_Configuration [38 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Not_Throw_Exception_When_Queue_Name_Is_Long [42 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Be_Able_To_Declare_Exchange_And_Queue_Using_Declaration_Object [36 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Not_Throw_Exception_When_Exchange_Name_Is_Long [39 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Be_Able_To_Publish_With_Custom_Header [41 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.NinjectTests.Should_Be_Able_To_Resolve_Client_From_Ninject [68 ms]
+  Passed RawRabbit.IntegrationTests.Features.GracefulShutdownTest.Should_Cancel_Subscription_When_Shutdown_Is_Called [136 ms]
+  Passed RawRabbit.IntegrationTests.GetOperation.BasicGetTests.Should_Be_Able_To_Get_Message [40 ms]
+  Passed RawRabbit.IntegrationTests.GetOperation.BasicGetTests.Should_Be_Able_To_Get_BasicGetResult_Message [41 ms]
+  Passed RawRabbit.IntegrationTests.GetOperation.BasicGetTests.Should_Be_Able_To_Get_BasicGetResult_When_Queue_IsEmpty [22 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.InteroperationFunctionalityTests.Throws_Publish_Confirm_Exception_If_Rpc_Response_Sent [47 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.SimpleDependencyTests.Should_Honor_Client_Config_From_Options [9 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Override_Custom_Suffix [64 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Create_Unique_Queue_With_Custom_Suffix [57 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Combine_Suffix [62 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Keep_Queue_Name_Intact_If_No_Custom_Prefix_Is_Used [347 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Create_Unique_Queue_With_Host_Name [62 ms]
+Build started 10/9/2025 5:53:33 PM.
+Test run for /home/laird/src/EYP/RawRabbit/test/RawRabbit.IntegrationTests/bin/Debug/net9.0/RawRabbit.IntegrationTests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.9)
+[xUnit.net 00:00:00.22]   Discovering: RawRabbit.IntegrationTests (method display = ClassAndMethod, method display options = None)
+[xUnit.net 00:00:00.31]   Discovered:  RawRabbit.IntegrationTests (found 112 test cases)
+[xUnit.net 00:00:00.31]   Starting:    RawRabbit.IntegrationTests (parallel test collections = off, stop on fail = off)
+  Passed RawRabbit.IntegrationTests.Features.GracefulShutdownTest.Should_Cancel_Subscription_When_Shutdown_Is_Called [643 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.AttributeEnricherTests.Should_Work_For_Responder [138 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.AttributeEnricherTests.Should_Work_For_Subscribe [53 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.AttributeEnricherTests.Should_Work_For_Publish [53 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.AttributeEnricherTests.Should_Work_For_Request [91 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.AttributeEnricherTests.Should_Work_For_Pub_Sub [61 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.AttributeEnricherTests.Should_Work_For_Full_Rpc [58 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Work_With_Generic_Messages [182 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Create_Chain_With_Publish_When_And_Complete [156 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Work_For_Concurrent_Sequences [432 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Forward_Message_Context_In_When_Message_Handler [181 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Not_Invoke_Handler_If_Previous_Mandatory_Handler_Not_Invoked [884 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Support_Chained_Message_Sequences [150 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Honor_Timeout [246 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Execute_Sequence_With_Multiple_Whens [173 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Create_Simple_Chain_Of_One_Send_And_Final_Receive [77 ms]
+  Passed RawRabbit.IntegrationTests.MessageSequence.MessageSequenceTests.Should_Abort_Execution_If_Configured_To [84 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.MultipleOperationsTests.Should_Be_Able_To_Perform_Multiple_Concurrent_Rpc [6 s]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.MultipleOperationsTests.Should_Be_Able_To_Perform_Multiple_Concurrent_Publishes [4 s]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcFundamentalTests.Should_Return_Response_When_Using_Custom_Request_And_Response_Configuration [88 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcFundamentalTests.Should_Return_Respose_Without_Any_Additional_Configuration [60 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcFundamentalTests.Should_Work_With_Dedicated_Consumer_And_Custom_Response_Queue [226 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.MandatoryCallbackTests.Should_Not_Invoke_Mandatory_Callback_If_Message_Is_Undelivered [285 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.MandatoryCallbackTests.Should_Invoke_Mandatory_Callback_If_Message_Is_Undelivered [21 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Honor_Exchange_Name_Configuration [59 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Honor_Complex_Configuration [70 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Consume_Message_Already_In_Queue [76 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Be_Able_To_Create_Unique_Queues_With_Naming_Suffix [101 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Work_Without_Any_Additional_Configuration [52 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Not_Throw_Exception_When_Queue_Name_Is_Long [49 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Be_Able_To_Declare_Exchange_And_Queue_Using_Declaration_Object [48 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Not_Throw_Exception_When_Exchange_Name_Is_Long [52 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.ConfigurationTests.Should_Be_Able_To_Publish_With_Custom_Header [67 ms]
+  Passed RawRabbit.IntegrationTests.DependencyInjection.SimpleDependencyTests.Should_Honor_Client_Config_From_Options [18 ms]
+  Passed RawRabbit.IntegrationTests.GetOperation.BasicGetTests.Should_Be_Able_To_Get_Message [51 ms]
+  Passed RawRabbit.IntegrationTests.GetOperation.BasicGetTests.Should_Be_Able_To_Get_BasicGetResult_Message [54 ms]
+  Passed RawRabbit.IntegrationTests.GetOperation.BasicGetTests.Should_Be_Able_To_Get_BasicGetResult_When_Queue_IsEmpty [24 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Send_Context_On_Pub_Sub [62 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Forward_Context_On_Publish_With_Context_Forwarding [86 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Override_With_Explicit_Context_On_Pub_Sub [50 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Forward_Context_For_Pub_Sub_And_Rpc [87 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Send_Context_On_Rpc [55 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Shoud_Create_Context_From_Supplied_Factory_Method [61 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Not_Forward_Context_By_Default [81 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Use_Subscriber_Declared_Context [108 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.MessageContextTests.Should_Be_Able_To_Have_Any_Object_As_Message_Context [50 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcTimeoutTests.Should_Not_Time_out_If_Response_Is_Received [54 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcTimeoutTests.Should_Not_Use_Timeout_If_Cancellation_Token_Is_Provided [792 ms]
+  Passed RawRabbit.IntegrationTests.Rpc.RpcTimeoutTests.Should_Throw_Timeout_Exception_If_Response_Is_Not_Received [132 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.LegacyClientTests.Should_Pub_Sub_Without_Config [153 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.LegacyClientTests.Should_Pub_Sub_With_Custom_Config [93 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.LegacyClientTests.Should_Rpc_With_Custom_Context [113 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.LegacyClientTests.Should_Rpc_Without_Config [109 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.LegacyClientTests.Should_Rpc_With_Config [156 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.LegacyClientTests.Should_Pub_Sub_With_Custom_Context [127 ms]
+  Passed RawRabbit.IntegrationTests.PublishAndSubscribe.CancellationTests.Should_Honor_Task_Cancellation [189 ms]
+  Passed RawRabbit.IntegrationTests.Compatibility.InteroperationFunctionalityTests.Throws_Publish_Confirm_Exception_If_Rpc_Response_Sent [93 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.RetryLaterEnricherTests.Should_Update_Retry_Information_Correctly [577 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Override_Custom_Suffix [85 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Create_Unique_Queue_With_Custom_Suffix [86 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Combine_Suffix [89 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Keep_Queue_Name_Intact_If_No_Custom_Prefix_Is_Used [368 ms]
+  Passed RawRabbit.IntegrationTests.Enrichers.QueueSuffixTests.Should_Be_Able_To_Create_Unique_Queue_With_Host_Name [81 ms]

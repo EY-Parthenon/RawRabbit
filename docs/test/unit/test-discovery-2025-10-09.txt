@@ -1,0 +1,44 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  RawRabbit -> /home/laird/src/EYP/RawRabbit/src/RawRabbit/bin/Debug/net9.0/RawRabbit.dll
+  RawRabbit.Tests -> /home/laird/src/EYP/RawRabbit/test/RawRabbit.Tests/bin/Debug/net9.0/RawRabbit.Tests.dll
+Test run for /home/laird/src/EYP/RawRabbit/test/RawRabbit.Tests/bin/Debug/net9.0/RawRabbit.Tests.dll (.NETCoreApp,Version=v9.0)
+VSTest version 17.14.1 (x64)
+
+The following Tests are available:
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Credentials
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Credentials_With_Port
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Credentials_With_VirtualHost
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Credentials_With_Parameters
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Credentials_With_Port_And_VirtualHost
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Port
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Port_With_VirtualHost
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_With_Port_Without_VirtualHost
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_With_Port_And_VirtualHost
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_With_All_Attributes_And_Parameters
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_VirtualHost_With_Parameters
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_Credentials_With_Port_And_VirtualHost_And_Parameters
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Be_Able_To_Parse_ConnectionString_Without_VirtualHost_And_Port_With_Parameters
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Throw_Format_Exception_When_ConnectionString_Has_Bad_Port
+    RawRabbit.Tests.Common.ConnectionStringParserTests.Should_Throw_Argument_Exception_When_ConnectionString_Has_Bad_Property
+    RawRabbit.Tests.Common.NamingConventionsTests.Should_Be_Able_To_Get_Application_Name_From_Console_App_Or_Service
+    RawRabbit.Tests.Common.NamingConventionsTests.Should_Be_Able_To_Get_Application_Name_From_Console_App_Or_Service_With_Vshost
+    RawRabbit.Tests.Common.NamingConventionsTests.Should_Be_Able_To_Get_Application_Name_From_IIS_Hosted_App_With_ApplicationPool_Flag
+    RawRabbit.Tests.Common.NamingConventionsTests.Should_Be_Able_To_Get_Application_Name_From_IIS_Hosted_App_With_Host_Flag
+    RawRabbit.Tests.Common.NamingConventionsTests.Should_Be_Able_To_Get_Appllication_Name_From_Dot_Net_Core_Hosted_Apps
+    RawRabbit.Tests.Channel.ChannelFactoryTests.Should_Throw_Exception_If_Connection_Is_Closed_By_Application
+    RawRabbit.Tests.Channel.ChannelFactoryTests.Should_Throw_Exception_If_Connection_Is_Closed_By_Lib_But_Is_Not_Recoverable
+    RawRabbit.Tests.Channel.ChannelFactoryTests.Should_Return_Channel_From_Connection
+    RawRabbit.Tests.Channel.ChannelFactoryTests.Should_Wait_For_Connection_To_Recover_Before_Returning_Channel
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Serve_Open_Channels_In_A_Round_Robin_Manner
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Not_Serve_Closed_Channels
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Serve_Recovered_Channels
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Throw_Exception_If_All_Channels_Are_Closed_And_None_Is_Recoverable
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Not_Throw_If_All_Channels_Are_Closed_But_At_Least_One_Is_Recoverable
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Be_Able_To_Have_Multiple_Pending_Requests
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Throw_Exception_If_All_Channels_Are_Closed_And_Close_Reason_For_All_Recoverable_Channels_Are_Application
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Be_Able_To_Cancel_With_Token
+    RawRabbit.Tests.Channel.ChannelPoolTests.Should_Throw_Exception_If_Recoverable_Channel_Is_Closed_By_Application
+    RawRabbit.Tests.Channel.DynamicChannelPoolTests.Should_Be_Able_To_Add_And_Use_Channels
+    RawRabbit.Tests.Channel.DynamicChannelPoolTests.Should_Not_Throw_Exception_If_Trying_To_Remove_Channel_Not_In_Pool
+    RawRabbit.Tests.Channel.DynamicChannelPoolTests.Should_Remove_Channels_Based_On_Count
