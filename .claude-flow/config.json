@@ -1,0 +1,188 @@
+{
+  "maxAgents": 6,
+  "topology": "mesh",
+  "sessionId": "dotnet9-upgrade",
+  "agents": {
+    "migration-architect": {
+      "type": "migration-planner",
+      "role": "Migration Architect",
+      "description": "Strategic planning and architectural decisions for .NET 9 upgrade",
+      "responsibilities": [
+        "Analyze current .NET framework version and dependencies",
+        "Design migration roadmap to .NET 9",
+        "Identify breaking changes and compatibility issues",
+        "Record ADRs for all major architectural decisions",
+        "Coordinate with all other agents via memory hooks"
+      ],
+      "deliverables": [
+        "Migration strategy document",
+        "Dependency upgrade matrix",
+        "Risk assessment report",
+        "ADR records for framework decisions"
+      ],
+      "memoryNamespace": "migration/architecture",
+      "priority": "critical"
+    },
+    "security-specialist": {
+      "type": "security-manager",
+      "role": "Security Specialist",
+      "description": "Security assessment and hardening for .NET 9 upgrade",
+      "responsibilities": [
+        "Audit current security vulnerabilities",
+        "Review .NET 9 security features and improvements",
+        "Identify deprecated/insecure APIs requiring replacement",
+        "Validate authentication/authorization patterns",
+        "Security scan on all code changes",
+        "Record ADRs for security-critical decisions"
+      ],
+      "deliverables": [
+        "Security audit report",
+        "Vulnerability remediation plan",
+        "Security compliance checklist",
+        "ADR records for security architecture"
+      ],
+      "checkpoints": [
+        "Pre-migration security baseline",
+        "Post-upgrade security validation",
+        "Dependency vulnerability scanning",
+        "Authentication/authorization review",
+        "Data protection compliance check"
+      ],
+      "memoryNamespace": "security/reviews",
+      "priority": "critical"
+    },
+    "dotnet-modernizer": {
+      "type": "backend-dev",
+      "role": ".NET Code Modernizer",
+      "description": "Code transformation and modernization to .NET 9",
+      "responsibilities": [
+        "Upgrade .NET framework references",
+        "Refactor code to .NET 9 patterns",
+        "Replace deprecated APIs with modern equivalents",
+        "Implement new .NET 9 features",
+        "Update NuGet packages",
+        "Coordinate with tester for validation"
+      ],
+      "deliverables": [
+        "Modernized codebase",
+        "API migration log",
+        "Performance optimization report",
+        "Package upgrade documentation"
+      ],
+      "memoryNamespace": "migration/components",
+      "priority": "high"
+    },
+    "qa-engineer": {
+      "type": "tester",
+      "role": "Quality Assurance Engineer",
+      "description": "Comprehensive testing strategy for .NET 9 upgrade",
+      "responsibilities": [
+        "Create migration test plan",
+        "Write regression tests for existing functionality",
+        "Implement integration tests for .NET 9",
+        "Performance benchmarking (before/after)",
+        "Validate security improvements",
+        "Document test coverage and results"
+      ],
+      "deliverables": [
+        "Test suite with 90%+ coverage",
+        "Regression test results",
+        "Performance benchmark comparison",
+        "Quality assurance report"
+      ],
+      "memoryNamespace": "testing/results",
+      "priority": "high"
+    },
+    "documentation-specialist": {
+      "type": "researcher",
+      "role": "Documentation Specialist",
+      "description": "Comprehensive documentation and ADR management",
+      "responsibilities": [
+        "Maintain ADR repository (docs/adr/)",
+        "Document all changes and decisions",
+        "Create migration guides and runbooks",
+        "Update API documentation",
+        "Track dependencies and version changes",
+        "Generate change logs"
+      ],
+      "deliverables": [
+        "ADR records (numbered sequentially)",
+        "Migration documentation",
+        "API change logs",
+        "Runbooks for deployment"
+      ],
+      "adrTemplate": {
+        "sections": ["Status", "Context", "Decision", "Consequences", "Alternatives Considered", "Related Decisions"]
+      },
+      "memoryNamespace": "docs/adr",
+      "priority": "medium"
+    },
+    "devops-engineer": {
+      "type": "cicd-engineer",
+      "role": "DevOps/CI-CD Engineer",
+      "description": "Build, deployment, and automation for .NET 9",
+      "responsibilities": [
+        "Update build pipelines for .NET 9",
+        "Configure CI/CD for automated testing",
+        "Docker containerization updates",
+        "Deployment automation",
+        "Monitor build health and performance",
+        "Record ADRs for infrastructure decisions"
+      ],
+      "deliverables": [
+        "Updated CI/CD pipelines",
+        "Automated deployment scripts",
+        "Container configurations",
+        "Infrastructure-as-Code updates"
+      ],
+      "memoryNamespace": "devops/pipelines",
+      "priority": "medium"
+    }
+  },
+  "workflow": {
+    "phases": [
+      {
+        "name": "Discovery & Planning",
+        "duration": "1-2 weeks",
+        "agents": ["migration-architect", "security-specialist", "documentation-specialist"]
+      },
+      {
+        "name": "Architecture & Design",
+        "duration": "1 week",
+        "agents": ["migration-architect", "security-specialist", "documentation-specialist"]
+      },
+      {
+        "name": "Implementation",
+        "duration": "5 weeks",
+        "agents": ["dotnet-modernizer", "qa-engineer", "security-specialist"]
+      },
+      {
+        "name": "Integration & Testing",
+        "duration": "2 weeks",
+        "agents": ["qa-engineer", "devops-engineer"]
+      },
+      {
+        "name": "Documentation & Deployment",
+        "duration": "2 weeks",
+        "agents": ["documentation-specialist", "devops-engineer"]
+      }
+    ]
+  },
+  "coordination": {
+    "hooks": {
+      "preTask": "npx claude-flow@alpha hooks pre-task --description",
+      "postTask": "npx claude-flow@alpha hooks post-task --task-id",
+      "postEdit": "npx claude-flow@alpha hooks post-edit --file",
+      "notify": "npx claude-flow@alpha hooks notify --message",
+      "sessionRestore": "npx claude-flow@alpha hooks session-restore --session-id dotnet9-upgrade",
+      "sessionEnd": "npx claude-flow@alpha hooks session-end --export-metrics true"
+    },
+    "memoryNamespaces": {
+      "migration": ["discovery", "architecture", "components"],
+      "security": ["baseline", "reviews"],
+      "docs": ["adr", "templates"],
+      "testing": ["results", "benchmarks"],
+      "devops": ["pipelines", "configs"]
+    }
+  }
+}
