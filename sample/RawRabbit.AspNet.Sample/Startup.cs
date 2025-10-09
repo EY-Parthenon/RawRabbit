@@ -13,6 +13,7 @@ using RawRabbit.Enrichers.GlobalExecutionId;
 using RawRabbit.Enrichers.HttpContext;
 using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Instantiation;
+using RawRabbit.Pipe;
 using Serilog;
 using Serilog.Events;
 using ILogger = Serilog.ILogger;
@@ -59,9 +60,9 @@ namespace RawRabbit.AspNet.Sample
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			Log.Logger = GetConfiguredSerilogger();
-			loggerFactory
-				.AddSerilog()
-				.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddSerilog();
+			// Note: AddConsole(IConfiguration) is obsolete in .NET 9
+			// Configure console logging in ConfigureServices if needed
 
 			app.UseMvc();
 		}

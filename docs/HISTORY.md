@@ -3440,3 +3440,20 @@ Complete dependent project ecosystem for .NET 9 adoption. After core library (St
 - Foundation established for integration testing (Stage 3.3)
 
 
+
+---
+
+## 2025-10-09 - Stage 3.3: Sample Applications Migration to .NET 9
+
+### What was changed
+
+Migrated 3 sample applications to .NET 9 (AspNet.Sample, ConsoleApp.Sample, Messages.Sample). Fixed preprocessor directives in MessageContextRepository.cs to support .NET 9. Updated PipeContextHttpExtensions.cs to support .NET 9. Resolved TryAdd ambiguity in MessageSequence.cs by explicitly calling RawRabbit.Pipe.DictionaryExtensions.TryAdd.
+
+### Why it was changed
+
+Enable end-to-end testing and demonstrations of RawRabbit on .NET 9
+
+### Impact on the codebase
+
+All 3 sample applications successfully build on .NET 9 with minimal warnings
+
