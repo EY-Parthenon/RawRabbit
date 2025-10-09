@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
+    <!-- .NET 9 Migration: Upgraded from netstandard1.5;net451 to net9.0 -->
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <Authors>pardahlman</Authors>
-    <AssemblyTitle>RawRabbit.Enrichers.ZeroFormatter</AssemblyTitle>
+    <AssemblyTitle>RawRabbit.Enrichers.Protobuf</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <PackageId>RawRabbit.Enrichers.Protobuf</PackageId>
     <PackageTags>rabbitmq;rawrabbit;protobuf</PackageTags>
@@ -13,7 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net" Version="2.3.2" />
+    <!-- Updated to .NET 9 compatible version -->
+    <PackageReference Include="protobuf-net" Version="3.2.30" />
   </ItemGroup>
 
   <ItemGroup>
