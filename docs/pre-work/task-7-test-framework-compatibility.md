@@ -213,10 +213,10 @@ Microsoft.NETCore.Platforms    1.0.2
 
 **Migration Complexity**: MEDIUM (may require test updates)
 
-### BenchmarkDotNet 0.10.3 → 0.14.0
+### BenchmarkDotNet 0.10.3 → 0.15.4
 
 **Current Version**: 0.10.3 (March 2017)
-**Latest Version**: 0.14.0 (January 2025)
+**Latest Version**: 0.15.4 (September 24, 2025)
 **Compatibility**: ✅ COMPATIBLE with .NET 9
 
 **Changes Required**:
@@ -225,7 +225,7 @@ Microsoft.NETCore.Platforms    1.0.2
 <PackageReference Include="BenchmarkDotNet" Version="0.10.3" />
 
 <!-- NEW -->
-<PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+<PackageReference Include="BenchmarkDotNet" Version="0.15.4" />
 ```
 
 **Breaking Changes**:
@@ -248,10 +248,11 @@ Microsoft.NETCore.Platforms    1.0.2
 
 **Migration Complexity**: MEDIUM (config API changes)
 
-### Microsoft.NET.Test.Sdk 15.0.0-preview → 17.12.0
+### Microsoft.NET.Test.Sdk 15.0.0-preview → 18.0.0
 
 **Current Version**: 15.0.0-preview-20170106-08 (January 2017 PREVIEW!)
-**Latest Version**: 17.12.0 (January 2025)
+**Latest Version**: 18.0.0 (October 2, 2025)
+**Alternative Latest**: 17.14.1 (June 3, 2025)
 **Compatibility**: ✅ COMPATIBLE with .NET 9
 
 **Changes Required**:
@@ -260,7 +261,7 @@ Microsoft.NETCore.Platforms    1.0.2
 <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
 
 <!-- NEW -->
-<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
 ```
 
 **Critical Issues**:
@@ -291,16 +292,16 @@ Microsoft.NETCore.Platforms    1.0.2
 
 | Package | Current | Target | Reason |
 |---------|---------|--------|--------|
-| Microsoft.NET.Test.Sdk | 15.0.0-preview | 17.12.0 | Using unstable preview from 2017 |
+| Microsoft.NET.Test.Sdk | 15.0.0-preview | 18.0.0 | Using unstable preview from 2017 |
 | Moq | 4.7.137 | 4.20.72 | Security vulnerabilities in dependencies |
-| xunit | 2.3.0 | 2.9.2 | 8 years of bug fixes and improvements |
+| xunit | 2.3.0 | 2.9.3 | 8 years of bug fixes and improvements |
 
 ### Priority 2: HIGH (Features/Performance)
 
 | Package | Current | Target | Reason |
 |---------|---------|--------|--------|
-| xunit.runner.visualstudio | 2.3.0 | 2.8.2 | Better IDE integration |
-| BenchmarkDotNet | 0.10.3 | 0.14.0 | .NET 9 optimized benchmarks |
+| xunit.runner.visualstudio | 2.3.0 | 3.1.5 | Better IDE integration |
+| BenchmarkDotNet | 0.10.3 | 0.15.4 | .NET 9 optimized benchmarks |
 | Castle.Core | 4.2.0 | (transitive) | Updated via Moq upgrade |
 
 ### Priority 3: MEDIUM (Maintenance)
@@ -369,17 +370,17 @@ dotnet test --no-build
 **Batch Update Strategy**:
 ```bash
 # Update test SDKs first
-dotnet add package Microsoft.NET.Test.Sdk --version 17.12.0
+dotnet add package Microsoft.NET.Test.Sdk --version 18.0.0
 
 # Update xUnit packages
-dotnet add package xunit --version 2.9.2
-dotnet add package xunit.runner.visualstudio --version 2.8.2
+dotnet add package xunit --version 2.9.3
+dotnet add package xunit.runner.visualstudio --version 3.1.5
 
 # Update mocking frameworks
 dotnet add package Moq --version 4.20.72
 
 # Update BenchmarkDotNet (for PerformanceTest only)
-dotnet add package BenchmarkDotNet --version 0.14.0
+dotnet add package BenchmarkDotNet --version 0.15.4
 ```
 
 **Validation After Each Update**:
@@ -588,8 +589,8 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage
 
 **Recommended**:
 ```xml
-<PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-<PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.14.0" />
+<PackageReference Include="BenchmarkDotNet" Version="0.15.4" />
+<PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.15.4" />
 ```
 
 **.NET 9 Optimizations**:
@@ -747,10 +748,10 @@ strategy:
 5. ✅ Commit changes
 
 ### Week 3: Package Version Updates
-1. ✅ Update Microsoft.NET.Test.Sdk to 17.12.0
-2. ✅ Update xUnit to 2.9.2
+1. ✅ Update Microsoft.NET.Test.Sdk to 18.0.0
+2. ✅ Update xUnit to 2.9.3
 3. ✅ Update Moq to 4.20.72
-4. ✅ Update BenchmarkDotNet to 0.14.0
+4. ✅ Update BenchmarkDotNet to 0.15.4
 5. ✅ Run tests after each update
 6. ✅ Commit changes
 
@@ -781,10 +782,10 @@ strategy:
 - ✅ Code coverage collection works correctly
 
 ### Framework Versions
-- ✅ xUnit 2.9.2 or later
+- ✅ xUnit 2.9.3 or later
 - ✅ Moq 4.20.72 or later
-- ✅ Microsoft.NET.Test.Sdk 17.12.0 or later
-- ✅ BenchmarkDotNet 0.14.0 or later
+- ✅ Microsoft.NET.Test.Sdk 18.0.0 or later
+- ✅ BenchmarkDotNet 0.15.4 or later
 
 ### CI/CD Integration
 - ✅ Automated test execution on push/PR
@@ -869,13 +870,16 @@ strategy:
 - **0.11.0** (Aug 2018) - Attribute refactor
 - **0.12.0** (Feb 2019) - Config API redesign
 - **0.13.0** (Nov 2020) - .NET 5 support, ARM64
-- **0.14.0** (Jan 2025) - .NET 9 support, Native AOT
+- **0.13.10** (date unknown) - Initial .NET 9 support added
+- **0.14.0** (date unknown) - .NET 9 benchmarking used by Microsoft
+- **0.15.4** (Sep 24, 2025) - Latest stable release
 
 ### Microsoft.NET.Test.Sdk
 - **15.0.0-preview** (Jan 2017) - Current version (PREVIEW!)
 - **16.0.0** (Mar 2019) - Stable release
 - **17.0.0** (Nov 2021) - .NET 6 support
-- **17.12.0** (Jan 2025) - .NET 9 support
+- **17.14.1** (Jun 3, 2025) - Latest v17 release
+- **18.0.0** (Oct 2, 2025) - Latest release with .NET 9 support
 
 ---
 
