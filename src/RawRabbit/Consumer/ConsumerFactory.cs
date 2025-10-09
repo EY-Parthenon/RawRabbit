@@ -60,7 +60,8 @@ namespace RawRabbit.Consumer
 		{
 			if (channel == null)
 			{
-				channel = await GetOrCreateChannelAsync(token);
+				// .NET 9: Add ConfigureAwait(false) per ADR-0017 to avoid deadlocks
+				channel = await GetOrCreateChannelAsync(token).ConfigureAwait(false);
 			}
 			return new EventingBasicConsumer(channel);
 		}

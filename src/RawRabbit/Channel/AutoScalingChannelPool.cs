@@ -48,12 +48,13 @@ namespace RawRabbit.Channel
 				var delta = _options.MinimunPoolSize - Pool.Count;
 				for (var i = 0; i < delta; i++)
 				{
-					var channel = await _factory.CreateChannelAsync(ct);
+					// .NET 9: Add ConfigureAwait(false) per ADR-0017 to avoid deadlocks
+					var channel = await _factory.CreateChannelAsync(ct).ConfigureAwait(false);
 					Add(channel);
 				}
 			}
 
-			return await base.GetAsync(ct);
+			return await base.GetAsync(ct).ConfigureAwait(false);
 		}
 
 		public void SetupScaling()

@@ -2,32 +2,40 @@
 
   <PropertyGroup>
     <Authors>par.dahlman</Authors>
-    <TargetFramework>net46</TargetFramework>
+    <!-- MIGRATED TO .NET 9: Updated from net46 to net9.0 for Stage 3.1 testing -->
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>RawRabbit.Tests</AssemblyName>
     <PackageId>RawRabbit.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\RawRabbit.DependencyInjection.Autofac\RawRabbit.DependencyInjection.Autofac.csproj" />
-    <ProjectReference Include="..\..\src\RawRabbit.DependencyInjection.Ninject\RawRabbit.DependencyInjection.Ninject.csproj" />
+    <!-- TEMPORARILY REMOVED: DI projects still target old frameworks, will migrate in Stage 3.2 -->
+    <!-- <ProjectReference Include="..\..\src\RawRabbit.DependencyInjection.Autofac\RawRabbit.DependencyInjection.Autofac.csproj" /> -->
+    <!-- <ProjectReference Include="..\..\src\RawRabbit.DependencyInjection.Ninject\RawRabbit.DependencyInjection.Ninject.csproj" /> -->
     <ProjectReference Include="..\..\src\RawRabbit\RawRabbit.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
-    <PackageReference Include="Moq" Version="4.7.137" />
-    <PackageReference Include="xunit" Version="2.3.0" />
+    <!-- UPDATED: Test SDK and packages upgraded for .NET 9 compatibility -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <PackageReference Include="Microsoft.NETCore.Platforms" Version="1.0.2" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+  <!-- REMOVED: net46 framework-specific references no longer needed for .NET 9 -->
 
 </Project>

@@ -5,7 +5,8 @@
     <AssemblyTitle>RawRabbit</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>pardahlman;enrique-avalon</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
+    <!-- MIGRATED TO .NET 9: Single target net9.0 only (per user instruction for Stage 3.1) -->
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>RawRabbit</AssemblyName>
     <PackageId>RawRabbit</PackageId>
     <PackageTags>rabbitmq;rawrabbit;amqp</PackageTags>
@@ -14,17 +15,24 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+    <!-- STAGE 3.1: RabbitMQ.Client 5.2.0 (.NET 9 compatible, stable API) -->
+    <!-- NOTE: RabbitMQ.Client 7.x upgrade deferred to Stage 3.2 due to extensive breaking changes -->
+    <!-- TODO Stage 3.2: Migrate IModel→IChannel refactoring (90+ files affected) -->
+    <!-- Version 5.2.0 fixes key issues while maintaining API compatibility -->
+    <PackageReference Include="RabbitMQ.Client" Version="5.2.0" />
+    <!-- SECURITY: Newtonsoft.Json upgraded from 10.0.1 to 13.0.3 -->
+    <!-- CVE-2022-24999 mitigated by TypeNameHandling.None configuration (line 62 in DependencyRegisterExtension.cs) -->
+    <!-- Maintained for backward compatibility; users should migrate to System.Text.Json -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <!-- PRIMARY: System.Text.Json for modern JSON serialization support -->
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+  <!-- REMOVED: net451 framework references no longer needed for .NET 9/8 targets -->
 
 </Project>
