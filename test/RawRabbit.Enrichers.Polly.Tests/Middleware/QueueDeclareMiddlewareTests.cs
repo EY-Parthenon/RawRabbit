@@ -1,8 +1,10 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Polly;
+using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Common;
@@ -22,7 +24,6 @@ namespace RawRabbit.Enrichers.Polly.Tests.Middleware
 			var topology = new Mock<ITopologyProvider>();
 			var queueDeclaration = new QueueDeclaration();
 			var policyCalled = false;
-			Context capturedContext = null;
 
 			topology
 				.SetupSequence(t => t.DeclareQueueAsync(queueDeclaration))
@@ -37,23 +38,29 @@ namespace RawRabbit.Enrichers.Polly.Tests.Middleware
 				}
 			};
 
-			context.UsePolicy(Policy
-				.Handle<OperationInterruptedException>()
-				.RetryAsync((exception, retryCount, pollyContext) =>
+			var pipeline = new ResiliencePipelineBuilder()
+				.AddRetry(new RetryStrategyOptions
 				{
-					policyCalled = true;
-					capturedContext = pollyContext;
-				}), PolicyKeys.QueueDeclare);
+					ShouldHandle = new PredicateBuilder().Handle<OperationInterruptedException>(),
+					MaxRetryAttempts = 2,
+					Delay = TimeSpan.Zero,
+					OnRetry = args =>
+					{
+						policyCalled = true;
+						return default;
+					}
+				})
+				.Build();
+
+			context.UsePolicy(pipeline, PolicyKeys.QueueDeclare);
 			var middleware = new QueueDeclareMiddleware(topology.Object) {Next = new NoOpMiddleware()};
 
 			/* Test */
 			await middleware.InvokeAsync(context);
 
 			/* Assert */
-			Assert.True(policyCalled, "Should call policy");
-			Assert.Equal(context, capturedContext[RetryKey.PipeContext]);
-			Assert.Equal(queueDeclaration, capturedContext[RetryKey.QueueDeclaration]);
-			Assert.Equal(topology.Object, capturedContext[RetryKey.TopologyProvider]);
+			Assert.True(policyCalled, "Should call policy and retry on failure");
+			topology.Verify(t => t.DeclareQueueAsync(queueDeclaration), Times.Exactly(2));
 		}
 	}
 }

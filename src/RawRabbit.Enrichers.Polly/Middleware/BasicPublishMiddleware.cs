@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
-using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
 {
@@ -23,20 +24,12 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.BasicPublish);
 			var policyTask = policy.ExecuteAsync(
-				action: () =>
+				async ct =>
 				{
 					base.BasicPublish(channel, exchange, routingKey, mandatory, basicProps, body, context);
-					return Task.FromResult(true);
+					return await Task.FromResult(true);
 				},
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.PipeContext] = context,
-					[RetryKey.ExchangeName] = exchange,
-					[RetryKey.RoutingKey] = routingKey,
-					[RetryKey.PublishMandatory] = mandatory,
-					[RetryKey.BasicProperties] = basicProps,
-					[RetryKey.PublishBody] = body,
-				});
+				CancellationToken.None);
 			policyTask.ConfigureAwait(false);
 			policyTask.GetAwaiter().GetResult();
 		}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Polly;
+using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Configuration;
@@ -31,18 +32,18 @@ namespace RawRabbit.Enrichers.Polly.Tests.Services
 				.Throws(new BrokerUnreachableException(new Exception()))
 				.Returns(connection.Object);
 
-			var policy = Policy
-				.Handle<BrokerUnreachableException>()
-				.WaitAndRetryAsync(new[]
+			var pipeline = new ResiliencePipelineBuilder()
+				.AddRetry(new RetryStrategyOptions
 				{
-					TimeSpan.FromMilliseconds(1),
-					TimeSpan.FromMilliseconds(2),
-					TimeSpan.FromMilliseconds(4),
-					TimeSpan.FromMilliseconds(8),
-					TimeSpan.FromMilliseconds(16)
-				});
+					ShouldHandle = new PredicateBuilder().Handle<BrokerUnreachableException>(),
+					MaxRetryAttempts = 5,
+					Delay = TimeSpan.FromMilliseconds(1),
+					BackoffType = DelayBackoffType.Exponential,
+					UseJitter = false
+				})
+				.Build();
 
-			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies{ Connect = policy});
+			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies{ Connect = pipeline });
 
 			/* Test */
 			/* Assert */
@@ -73,18 +74,18 @@ namespace RawRabbit.Enrichers.Polly.Tests.Services
 				.Throws(new TimeoutException())
 				.Returns(channel.Object);
 
-			var policy = Policy
-				.Handle<TimeoutException>()
-				.WaitAndRetryAsync(new[]
+			var pipeline = new ResiliencePipelineBuilder()
+				.AddRetry(new RetryStrategyOptions
 				{
-					TimeSpan.FromMilliseconds(1),
-					TimeSpan.FromMilliseconds(2),
-					TimeSpan.FromMilliseconds(4),
-					TimeSpan.FromMilliseconds(8),
-					TimeSpan.FromMilliseconds(16)
-				});
+					ShouldHandle = new PredicateBuilder().Handle<TimeoutException>(),
+					MaxRetryAttempts = 5,
+					Delay = TimeSpan.FromMilliseconds(1),
+					BackoffType = DelayBackoffType.Exponential,
+					UseJitter = false
+				})
+				.Build();
 
-			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies { CreateChannel = policy });
+			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies { CreateChannel = pipeline });
 
 			/* Test */
 			var retrievedChannel = await  factory.CreateChannelAsync();

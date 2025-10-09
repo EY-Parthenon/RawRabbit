@@ -13,19 +13,12 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		public ConsumerCreationMiddleware(IConsumerFactory consumerFactory, ConsumerCreationOptions options = null)
 			: base(consumerFactory, options) { }
 
-		protected override Task<IBasicConsumer> GetOrCreateConsumerAsync(IPipeContext context, CancellationToken token)
+		protected override async Task<IBasicConsumer> GetOrCreateConsumerAsync(IPipeContext context, CancellationToken token)
 		{
 			var policy = context.GetPolicy(PolicyKeys.QueueDeclare);
-			return policy.ExecuteAsync(
-				action: ct => base.GetOrCreateConsumerAsync(context, ct),
-				cancellationToken: token,
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.PipeContext] = context,
-					[RetryKey.CancellationToken] = token,
-					[RetryKey.ConsumerFactory] = ConsumerFactory,
-				}
-			);
+			return await policy.ExecuteAsync(
+				async ct => await base.GetOrCreateConsumerAsync(context, ct),
+				token);
 		}
 	}
 }
