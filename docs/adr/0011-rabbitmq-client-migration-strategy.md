@@ -1,8 +1,10 @@
 # ADR-0011: RabbitMQ.Client Migration Strategy
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (RabbitMQ.Client upgraded to 7.1.2, all async APIs implemented)
 
 **Authors**: Architecture Specialist
 

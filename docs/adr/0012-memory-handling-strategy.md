@@ -1,8 +1,10 @@
 # ADR-0012: Memory Handling Strategy
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (ArrayPool, ReadOnlyMemory, Span<T> optimizations complete)
 
 **Authors**: Architecture Specialist
 

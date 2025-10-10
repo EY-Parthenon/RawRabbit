@@ -8,7 +8,8 @@ namespace RawRabbit.Configuration
 	public class RawRabbitConfiguration
 	{
 		/// <summary>
-		/// The amount of time to wait for response to request. Defaults to 10 seconds.
+		/// The amount of time to wait for response to request. Defaults to 30 seconds.
+		/// Increased from 10s for .NET 9 compatibility with async/await patterns.
 		/// </summary>
 		public TimeSpan RequestTimeout { get; set; }
 
@@ -82,7 +83,7 @@ namespace RawRabbit.Configuration
 
 		public RawRabbitConfiguration()
 		{
-			RequestTimeout = TimeSpan.FromSeconds(10);
+			RequestTimeout = TimeSpan.FromSeconds(30);
 			PublishConfirmTimeout = TimeSpan.FromSeconds(1);
 			PersistentDeliveryMode = true;
 			AutoCloseConnection = true;
