@@ -9,6 +9,7 @@
     <!-- Removed: netstandard1.5, net451 (legacy .NET Framework) -->
     <!-- Updated: Autofac from 4.1.0 to 8.0.0+ for .NET 9 compatibility -->
     <TargetFramework>net9.0</TargetFramework>
+    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>RawRabbit.DependencyInjection.Autofac</AssemblyName>

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <!-- .NET 9 Migration: Upgraded from netstandard1.5;net451 to net9.0 -->
     <TargetFramework>net9.0</TargetFramework>
+    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Authors>pardahlman</Authors>

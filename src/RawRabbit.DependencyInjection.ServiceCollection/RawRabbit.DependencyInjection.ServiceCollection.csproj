@@ -8,6 +8,7 @@
     <!-- Removed: netstandard1.5, net451 (legacy frameworks) -->
     <!-- Updated: Microsoft.Extensions.DependencyInjection from 1.0.2 to 9.0.0 -->
     <TargetFramework>net9.0</TargetFramework>
+    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>RawRabbit.DependencyInjection.ServiceCollection</AssemblyName>

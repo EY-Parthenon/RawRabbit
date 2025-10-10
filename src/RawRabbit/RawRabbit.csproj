@@ -7,6 +7,7 @@
     <Authors>pardahlman;enrique-avalon</Authors>
     <!-- MIGRATED TO .NET 9: Single target net9.0 only (per user instruction for Stage 3.1) -->
     <TargetFramework>net9.0</TargetFramework>
+    <Version>2.1.0</Version>
     <AssemblyName>RawRabbit</AssemblyName>
     <PackageId>RawRabbit</PackageId>
     <PackageTags>rabbitmq;rawrabbit;amqp</PackageTags>

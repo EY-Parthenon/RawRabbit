@@ -4319,3 +4319,20 @@ Three specialized agents worked in parallel: Build Specialist (26 packages), Rel
 
 Stage 8 ready for user deployment. See docs/release/USER-DEPLOYMENT-CHECKLIST.md for 3-step deployment process. Awaiting user approval to push tag, publish packages, and create GitHub release.
 
+
+---
+
+## 2025-10-09 - Package Version Update: All Projects to v2.1.0
+
+### What was changed
+
+Updated all 27 project files (.csproj) to version 2.1.0 from 2.0.0/1.0.0. Rebuilt all NuGet packages with correct version numbers.
+
+### Why it was changed
+
+Updated: 1 core library, 3 DI adapters, 8 Operations, 11 Enrichers, 1 Compatibility (alpha), 2 Samples. All packages now show version 2.1.0 (or 2.1.0-alpha for Legacy).
+
+### Impact on the codebase
+
+All 27 NuGet packages successfully rebuilt and ready for publication to NuGet.org with version 2.1.0. Total package size: 348 KB.
+

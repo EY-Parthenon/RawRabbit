@@ -8,6 +8,7 @@
     <!-- Migrated to .NET 9 as part of Stage 3.2: Operations Migration -->
     <!-- Removed: netstandard1.5, net451 (legacy .NET Framework targets) -->
     <TargetFramework>net9.0</TargetFramework>
+    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>RawRabbit.Operations.StateMachine</AssemblyName>

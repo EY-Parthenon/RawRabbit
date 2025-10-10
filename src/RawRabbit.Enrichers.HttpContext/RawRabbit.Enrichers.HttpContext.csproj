@@ -7,6 +7,7 @@
     <Authors>pardahlman</Authors>
     <!-- .NET 9 Migration: Upgraded from netstandard1.6;net451 to net9.0, removed System.Web (net451 only) -->
     <TargetFramework>net9.0</TargetFramework>
+    <Version>2.1.0</Version>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>RawRabbit.Enrichers.HttpContext</AssemblyName>
