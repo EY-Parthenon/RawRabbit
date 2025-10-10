@@ -4336,3 +4336,20 @@ Updated: 1 core library, 3 DI adapters, 8 Operations, 11 Enrichers, 1 Compatibil
 
 All 27 NuGet packages successfully rebuilt and ready for publication to NuGet.org with version 2.1.0. Total package size: 348 KB.
 
+
+---
+
+## 2025-10-09 - GitHub Release v2.1.0 Published ✅
+
+### What was changed
+
+Successfully created and published GitHub release v2.1.0 with complete release notes, migration guide, and changelog. Git tag v2.1.0 created and pushed to origin.
+
+### Why it was changed
+
+Release includes: comprehensive release notes (230 lines), migration guide, changelog, 3 attached documentation assets. All breaking changes, security fixes (4 CVEs), and performance improvements documented.
+
+### Impact on the codebase
+
+Release URL: https://github.com/EY-Parthenon/RawRabbit/releases/tag/v2.1.0 - Published: 2025-10-10T03:42:13Z. Final step remaining: Publish 27 NuGet packages to NuGet.org (requires API key).
+
