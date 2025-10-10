@@ -4,6 +4,65 @@ This document tracks all work completed during the .NET 9 upgrade project, recor
 
 ---
 
+## 2025-10-10 - Phase 1: BasicGet Queue Isolation Fixed ✅
+
+### What was changed
+
+**BasicGet Integration Tests Fixed**:
+- Fixed 3 failing BasicGet tests (100% pass rate achieved)
+- Implemented unique queue and exchange naming strategy using GUIDs
+- All tests now use isolated RabbitMQ resources to prevent PRECONDITION_FAILED errors
+- Added explanatory comments documenting the fix strategy
+
+**Test Files Modified**:
+- `test/RawRabbit.IntegrationTests/GetOperation/BasicGetTests.cs` - Added GUID-based unique naming for queues and exchanges
+
+**Documentation Created**:
+- `docs/test/fixes/phase-1-basicget-fix.md` - Detailed fix documentation with before/after analysis
+
+### Why it was changed
+
+**Test Reliability**:
+- Tests were failing due to RabbitMQ resource state conflicts between test runs
+- Queue and exchange parameters (durable, auto_delete) conflicted when resources persisted from previous runs
+- PRECONDITION_FAILED errors prevented all 3 BasicGet tests from passing
+
+**Isolation Strategy**:
+- Using unique resource names ensures complete test isolation
+- Each test run creates its own queues and exchanges with unique GUIDs
+- Eliminates dependency on cleanup from previous test runs
+- Enables parallel test execution without interference
+
+### Impact on the codebase
+
+**Test Success Rate**:
+- BasicGet tests: 0% → 100% pass rate (3/3 tests passing)
+- Test execution time: ~1.8 seconds for all 3 tests
+- Zero PRECONDITION_FAILED errors
+
+**Code Changes**:
+- 1 test file modified
+- Added unique naming pattern: `{conventionName}-{Guid.NewGuid()}`
+- Updated GetAsync calls to explicitly specify queue names
+- No production code changes
+
+**Benefits**:
+- Guaranteed test isolation and independence
+- Parallel-safe test execution
+- Simple, maintainable solution
+- Pattern can be applied to other failing tests
+
+**Trade-offs**:
+- Test resources (queues/exchanges) remain in RabbitMQ after tests
+- Acceptable for test environments
+- Can implement cleanup script if needed in future
+
+**Next Steps**:
+- Apply similar fix pattern to other tests with PRECONDITION_FAILED errors
+- Proceed to Phase 2 test fixes
+
+---
+
 ## 2025-10-09 - Stage 1: Foundation & Assessment Complete ✅
 
 ### What was changed

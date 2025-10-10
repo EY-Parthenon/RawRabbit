@@ -1,8 +1,10 @@
 # ADR-0003: Target Framework Selection
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (All 32 projects migrated to net9.0+net8.0)
 
 **Authors**: Architecture Specialist
 

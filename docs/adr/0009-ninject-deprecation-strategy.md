@@ -1,8 +1,10 @@
 # ADR-0009: Ninject Deprecation Strategy
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (Ninject marked obsolete, migration guide published)
 
 **Authors**: Architecture Specialist
 

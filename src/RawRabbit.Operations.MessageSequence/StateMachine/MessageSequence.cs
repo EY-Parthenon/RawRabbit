@@ -232,7 +232,10 @@ namespace RawRabbit.Operations.MessageSequence.StateMachine
 					)
 				);
 
-			_channel = _client.CreateChannelAsync().GetAwaiter().GetResult();
+			// .NET 9: Use Task.Run to avoid deadlocks from blocking async calls
+			// The Complete<T> method must remain synchronous for API compatibility,
+			// but we offload the async work to the thread pool to prevent thread pool starvation
+			_channel = Task.Run(async () => await _client.CreateChannelAsync().ConfigureAwait(false)).GetAwaiter().GetResult();
 
 			foreach (var triggerCfg in _triggerConfigurer.TriggerConfiguration)
 			{
@@ -243,7 +246,8 @@ namespace RawRabbit.Operations.MessageSequence.StateMachine
 					// Use explicit call to avoid ambiguity with .NET 9's CollectionExtensions.TryAdd
 					RawRabbit.Pipe.DictionaryExtensions.TryAdd(context.Properties, PipeKey.Channel, _channel);
 				};
-				var ctx = _client.InvokeAsync(triggerCfg.Pipe, triggerCfg.Context).GetAwaiter().GetResult();
+				// .NET 9: Use Task.Run to avoid deadlocks from blocking async calls
+				var ctx = Task.Run(async () => await _client.InvokeAsync(triggerCfg.Pipe, triggerCfg.Context).ConfigureAwait(false)).GetAwaiter().GetResult();
 				_subscriptions.Add(ctx.GetSubscription());
 			}
 

@@ -1,8 +1,10 @@
 # ADR-0013: Publisher Confirm Strategy
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (Tiered publisher confirms with async WaitForConfirmsAsync)
 
 **Authors**: Architecture Specialist
 

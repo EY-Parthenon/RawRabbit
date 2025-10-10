@@ -1,8 +1,10 @@
 # ADR-0010: Security Scanning Toolchain
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (Dependabot, CodeQL, OWASP Dependency-Check integrated)
 
 **Authors**: Architecture Specialist
 
