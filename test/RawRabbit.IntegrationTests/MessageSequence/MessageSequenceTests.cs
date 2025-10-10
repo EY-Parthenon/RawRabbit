@@ -213,7 +213,8 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 					);
 					sequences.Add(seq);
 				}
-				Task.WaitAll(sequences.Select(s => s.Task).ToArray());
+				// .NET 9: Use await Task.WhenAll instead of Task.WaitAll to avoid deadlocks
+				await Task.WhenAll(sequences.Select(s => s.Task));
 
 				/* Test */
 
@@ -259,8 +260,9 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 				);
 
 				await firstTcs.Task;
-				Task.WaitAll(new Task[] {secondTcs.Task, thirdTcs.Task}, TimeSpan.FromMilliseconds(400));
-				secondTcs.Task.Wait(TimeSpan.FromMilliseconds(400));
+				// .NET 9: Use Task.WhenAny with delay instead of blocking Wait calls
+				// This test expects these tasks NOT to complete, so we wait with timeout
+				await Task.WhenAny(Task.WhenAll(secondTcs.Task, thirdTcs.Task), Task.Delay(400));
 
 				/* Assert */
 				Assert.False(secondTcs.Task.IsCompleted);

@@ -1,8 +1,10 @@
 # ADR-0007: Dependency Injection Strategy
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (Microsoft.Extensions.DependencyInjection primary, Autofac secondary, Ninject deprecated)
 
 **Authors**: Architecture Specialist
 

@@ -1,8 +1,10 @@
 # ADR-0006: Serialization Strategy
 
-**Status**: Proposed
+**Status**: Implemented
 
 **Date**: 2025-10-09
+
+**Implemented**: 2025-10-09 (System.Text.Json as primary, Newtonsoft.Json plugin available)
 
 **Authors**: Architecture Specialist
 
