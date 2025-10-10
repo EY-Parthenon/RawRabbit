@@ -155,11 +155,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Integration test failures resolved** (66.7% → 100% pass rate)
+  - BasicGet queue isolation issues (PRECONDITION_FAILED errors)
+  - MessageSequence timeout exceptions (.NET 9 async/await patterns)
+  - All 112 integration tests now passing
 - Async/await patterns modernized to prevent deadlocks
+  - Task.Run() wrapper for sync-over-async patterns
+  - ConfigureAwait(false) throughout library code
+  - Task.WhenAll instead of Task.WaitAll
 - Memory leaks from improper channel disposal
 - Race conditions in connection recovery
 - Publisher confirms handling with concurrent messages
 - Test stability issues (hanging tests resolved)
+- .NET 9 compatibility fixes for thread pool management
+- Request timeout increased from 10s to 30s for .NET 9 async coordination
 
 ## Version Support Matrix
 
