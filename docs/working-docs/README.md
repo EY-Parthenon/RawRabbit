@@ -24,6 +24,8 @@ These documents serve as:
 
 ### Debugging & Investigation
 - **PUBLISHER-CONFIRMS-INVESTIGATION.md** - Detailed publisher confirms debugging process
+- **POLLY-8-MIGRATION.md** - Polly 8.x migration implementation details
+- **RABBITMQ-CLIENT-6-MIGRATION.md** - RabbitMQ.Client 6.x migration implementation details
 - **INTEGRATION-TEST-BLOCKERS.md** - Integration testing blockers and issues
 - **TEST-FAILURES-REPORT.md** - Test failure analysis
 
