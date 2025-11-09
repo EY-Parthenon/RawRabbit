@@ -40,6 +40,10 @@ These documents serve as:
 - **HANDOFF.md** - Team handoff documentation
 - **NEXT-STEPS-INTEGRATION-TESTING.md** - Integration testing next steps
 - **VALIDATION-CHECKLIST.md** - Validation checklist
+- **DEVELOPER-QUICKSTART.md** - Developer quickstart guide (historical)
+
+### Build & Configuration Files
+- **conf.py** - Sphinx documentation configuration (v2.x)
 
 ## For Current Documentation
 
@@ -49,7 +53,6 @@ These documents serve as:
 - **[MODERNIZATION-COMPLETE.md](../../MODERNIZATION-COMPLETE.md)** - Project completion summary
 - **[MIGRATION-GUIDE.md](../../MIGRATION-GUIDE.md)** - How to upgrade from v2.x to v3.0
 - **[CHANGELOG.md](../../CHANGELOG.md)** - What's new in v3.0
-- **[docs/DEVELOPER-QUICKSTART.md](../DEVELOPER-QUICKSTART.md)** - Developer guide
 
 ## Note
 
