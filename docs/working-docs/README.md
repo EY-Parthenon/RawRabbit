@@ -14,7 +14,6 @@ These documents serve as:
 
 ### Planning & Assessment
 - **PLAN.md** - Complete modernization plan and strategy (also available in root)
-- **ASSESSMENT.md** - Initial codebase assessment and analysis
 
 ### Progress Tracking
 - **CODE-MIGRATION-COMPLETE.md** - Code migration phase summary
@@ -33,7 +32,6 @@ These documents serve as:
 - **EXECUTIVE-SUMMARY.md** - High-level project summary
 - **FINAL-STATUS.md** - Final project status report
 - **MODERNIZATION-STATUS.md** - Detailed modernization status tracking
-- **HISTORY.md** - Project history and timeline
 - **START-HERE.md** - Project entry point (historical)
 
 ### Handoff & Next Steps
