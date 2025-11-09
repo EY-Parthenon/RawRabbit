@@ -1,5 +1,33 @@
-_Looking for documentation of 1.x? [Click here](https://github.com/pardahlman/RawRabbit/tree/stable)_
 # RawRabbit
+
+---
+
+## 🚀 Version 3.0 Modernization in Progress
+
+⚠️ **IMPORTANT NOTICE**: This repository is currently undergoing modernization to **.NET 8** (version 3.0).
+
+**Current Status**: 45% Complete (Documentation Phase Finished)
+- ✅ Framework migrated to .NET 8
+- ✅ Dependencies updated (7 years of updates)
+- ✅ Comprehensive migration documentation created
+- ⚠️ **Build Status**: Does NOT currently build (RabbitMQ.Client 6.x code migration in progress)
+
+**For 3.0 Information**:
+- **[README-3.0.md](README-3.0.md)** - Complete 3.0 overview and status
+- **[CHANGELOG.md](CHANGELOG.md)** - Breaking changes in 3.0
+- **[MIGRATION-GUIDE.md](MIGRATION-GUIDE.md)** - Step-by-step upgrade guide (1,800+ lines)
+- **[docs/MODERNIZATION-STATUS.md](docs/MODERNIZATION-STATUS.md)** - Current project status
+
+**For Production Use**:
+- ⚠️ **DO NOT use this 3.0 branch in production** - it does not currently build
+- ✅ Use the [original RawRabbit 2.x](https://github.com/pardahlman/RawRabbit) (stable, but unmaintained since 2018)
+- ✅ Consider migrating to [MassTransit](https://masstransit.io/) (actively maintained alternative)
+
+---
+
+## RawRabbit 2.x Documentation (Current Stable Version)
+
+_Looking for documentation of 1.x? [Click here](https://github.com/pardahlman/RawRabbit/tree/stable)_
 
 [![Build Status](https://img.shields.io/appveyor/ci/pardahlman/rawrabbit.svg?style=flat-square)](https://ci.appveyor.com/project/pardahlman/rawrabbit) [![Documentation Status](https://readthedocs.org/projects/rawrabbit/badge/?version=latest&style=flat-square)](http://rawrabbit.readthedocs.org/) [![NuGet](https://img.shields.io/nuget/v/RawRabbit.svg?style=flat-square)](https://www.nuget.org/packages/RawRabbit) [![GitHub release](https://img.shields.io/github/release/pardahlman/rawrabbit.svg?style=flat-square)](https://github.com/pardahlman/rawrabbit/releases/latest)
 [![Slack Status](https://rawrabbit.herokuapp.com/badge.svg)](https://rawrabbit.herokuapp.com)
