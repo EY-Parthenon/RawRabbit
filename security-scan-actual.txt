@@ -1,0 +1,90 @@
+
+The following sources were used:
+   https://api.nuget.org/v3/index.json
+   https://www.nuget.org/api/v2/
+   https://www.myget.org/F/xunit/api/v3/index.json
+
+The given project `RawRabbit` has no vulnerable packages given the current sources.
+The given project `RawRabbit.DependencyInjection.Autofac` has no vulnerable packages given the current sources.
+The given project `RawRabbit.DependencyInjection.Ninject` has no vulnerable packages given the current sources.
+Project `RawRabbit.Messages.Sample` has the following vulnerable packages
+   [net451]: No vulnerable packages for this framework.
+   [netstandard1.5]: 
+   Transitive Package                    Resolved   Severity   Advisory URL                                     
+   > System.Net.Http                     4.3.0      High       https://github.com/advisories/GHSA-7jgj-8wvc-jh57
+   > System.Text.RegularExpressions      4.3.0      High       https://github.com/advisories/GHSA-cmhx-cq75-c4mj
+
+Project `RawRabbit.AspNet.Sample` has the following vulnerable packages
+   [netcoreapp2.0]: 
+   Top-level Package               Requested   Resolved   Severity   Advisory URL                                     
+   > Microsoft.NETCore.App   (A)   [2.0.0, )   2.0.0      High       https://github.com/advisories/GHSA-7mfr-774f-w5r9
+
+   Transitive Package                                                Resolved   Severity   Advisory URL                                     
+   > Microsoft.AspNetCore.Http                                       2.0.0      High       https://github.com/advisories/GHSA-hxrm-9w7p-39cc
+   > Microsoft.AspNetCore.HttpOverrides                              2.0.0      High       https://github.com/advisories/GHSA-365p-96qv-xr7g
+   > Microsoft.AspNetCore.Mvc.Core                                   2.0.0      High       https://github.com/advisories/GHSA-3wcj-rg8q-9cqv
+   > Microsoft.AspNetCore.Server.Kestrel.Core                        2.0.0      Critical   https://github.com/advisories/GHSA-5rrx-jjjq-q2r5
+                                                                                Moderate   https://github.com/advisories/GHSA-3m2r-q8x3-xmf7
+                                                                                Moderate   https://github.com/advisories/GHSA-cgpw-2gph-2r9g
+                                                                                High       https://github.com/advisories/GHSA-365p-96qv-xr7g
+                                                                                High       https://github.com/advisories/GHSA-242j-2gm6-5rwx
+   > Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions      2.0.0      Moderate   https://github.com/advisories/GHSA-3m2r-q8x3-xmf7
+   > Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv             2.0.0      Moderate   https://github.com/advisories/GHSA-3m2r-q8x3-xmf7
+                                                                                High       https://github.com/advisories/GHSA-vmch-3w2x-vhgq
+   > Newtonsoft.Json                                                 10.0.1     High       https://github.com/advisories/GHSA-5crp-9r3c-p9vr
+   > System.Security.Cryptography.Xml                                4.4.0      High       https://github.com/advisories/GHSA-rr3c-f55v-qhv5
+                                                                                High       https://github.com/advisories/GHSA-35hc-x2cw-2j4v
+                                                                                Moderate   https://github.com/advisories/GHSA-vh55-786g-wjwj
+   > System.Text.Encodings.Web                                       4.4.0      Critical   https://github.com/advisories/GHSA-ghhp-997w-qr28
+   > System.Text.RegularExpressions                                  4.3.0      High       https://github.com/advisories/GHSA-cmhx-cq75-c4mj
+
+Project `RawRabbit.ConsoleApp.Sample` has the following vulnerable packages
+   [netcoreapp1.0]: 
+   Top-level Package               Requested   Resolved   Severity   Advisory URL                                     
+   > Microsoft.NETCore.App   (A)   [1.0.4, )   1.0.4      High       https://github.com/advisories/GHSA-7mfr-774f-w5r9
+                                                          High       https://github.com/advisories/GHSA-8884-xcr4-r68p
+
+   Transitive Package                    Resolved   Severity   Advisory URL                                     
+   > Microsoft.NETCore.Jit               1.0.6      High       https://github.com/advisories/GHSA-xcvr-qv8h-m7xw
+   > Newtonsoft.Json                     9.0.1      High       https://github.com/advisories/GHSA-5crp-9r3c-p9vr
+   > System.Net.Http                     4.3.0      High       https://github.com/advisories/GHSA-7jgj-8wvc-jh57
+   > System.Net.Security                 4.0.0      Moderate   https://github.com/advisories/GHSA-ch6p-4jcm-h8vh
+                                                    High       https://github.com/advisories/GHSA-6xh7-4v2w-36q6
+                                                    High       https://github.com/advisories/GHSA-qhqf-ghgh-x2m4
+                                                    Moderate   https://github.com/advisories/GHSA-j8f4-2w4p-mhjc
+   > System.Text.RegularExpressions      4.3.0      High       https://github.com/advisories/GHSA-cmhx-cq75-c4mj
+
+The given project `RawRabbit.Tests` has no vulnerable packages given the current sources.
+Project `RawRabbit.IntegrationTests` has the following vulnerable packages
+   [net8.0]: 
+   Transitive Package      Resolved   Severity   Advisory URL                                     
+   > MessagePack           2.5.172    Moderate   https://github.com/advisories/GHSA-4qm4-8hg2-g2xm
+
+The given project `RawRabbit.Operations.Publish` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.Subscribe` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Compatibility.Legacy` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.MessageContext.Subscribe` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.Request` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.Respond` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.Attributes` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.MessageContext.Respond` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.Get` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.MessageSequence` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.StateMachine` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.MessageContext` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.Polly` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.GlobalExecutionId` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.QueueSuffix` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.HttpContext` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Operations.Tools` has no vulnerable packages given the current sources.
+The given project `RawRabbit.PerformanceTest` has no vulnerable packages given the current sources.
+The given project `RawRabbit.DependencyInjection.ServiceCollection` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.Protobuf` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.Polly.Tests` has no vulnerable packages given the current sources.
+The given project `RawRabbit.Enrichers.RetryLater` has no vulnerable packages given the current sources.
+Project `RawRabbit.Enrichers.MessagePack` has the following vulnerable packages
+   [net8.0]: 
+   Top-level Package      Requested   Resolved   Severity   Advisory URL                                     
+   > MessagePack          2.5.172     2.5.172    Moderate   https://github.com/advisories/GHSA-4qm4-8hg2-g2xm
+
+(A) : Auto-referenced package.
