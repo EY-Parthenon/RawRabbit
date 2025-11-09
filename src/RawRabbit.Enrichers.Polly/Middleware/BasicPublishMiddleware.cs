@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.Pipe;
@@ -21,24 +21,16 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 				byte[] body,
 				IPipeContext context)
 		{
-			var policy = context.GetPolicy(PolicyKeys.BasicPublish);
-			var policyTask = policy.ExecuteAsync(
-				action: () =>
+			// Polly 8.x: Updated to use ResiliencePipeline instead of IAsyncPolicy
+			var pipeline = context.GetPolicy(PolicyKeys.BasicPublish);
+			var pipelineTask = pipeline.ExecuteAsync(
+				callback: async ct =>
 				{
 					base.BasicPublish(channel, exchange, routingKey, mandatory, basicProps, body, context);
-					return Task.FromResult(true);
-				},
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.PipeContext] = context,
-					[RetryKey.ExchangeName] = exchange,
-					[RetryKey.RoutingKey] = routingKey,
-					[RetryKey.PublishMandatory] = mandatory,
-					[RetryKey.BasicProperties] = basicProps,
-					[RetryKey.PublishBody] = body,
+					return true;
 				});
-			policyTask.ConfigureAwait(false);
-			policyTask.GetAwaiter().GetResult();
+			pipelineTask.ConfigureAwait(false);
+			pipelineTask.GetAwaiter().GetResult();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Framing;
+using RawRabbit.Common;
 
 namespace RawRabbit.Configuration.BasicPublish
 {
@@ -34,7 +35,8 @@ namespace RawRabbit.Configuration.BasicPublish
 
 		public IBasicPublishConfigurationBuilder WithProperties(Action<IBasicProperties> propAction)
 		{
-			Configuration.BasicProperties = Configuration.BasicProperties ?? new BasicProperties();
+			// RabbitMQ.Client 6.x: BasicProperties is internal, use SimpleBasicProperties instead
+		Configuration.BasicProperties = Configuration.BasicProperties ?? new SimpleBasicProperties();
 			propAction?.Invoke(Configuration.BasicProperties);
 			return this;
 		}

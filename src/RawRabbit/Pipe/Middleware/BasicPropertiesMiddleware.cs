@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Framing;
+using RawRabbit.Common;
 using RawRabbit.Serialization;
 
 namespace RawRabbit.Pipe.Middleware
@@ -27,12 +28,34 @@ namespace RawRabbit.Pipe.Middleware
 			Serializer = serializer;
 			PropertyModifier = options?.PropertyModier ?? ((ctx, props) => ctx.Get<Action<IBasicProperties>>(PipeKey.BasicPropertyModifier)?.Invoke(props));
 			PostCreateAction = options?.PostCreateAction;
-			GetOrCreatePropsFunc = options?.GetOrCreatePropsFunc ?? (ctx => ctx.GetBasicProperties() ?? new BasicProperties
+			GetOrCreatePropsFunc = options?.GetOrCreatePropsFunc ?? (ctx =>
 			{
-				MessageId = Guid.NewGuid().ToString(),
-				Headers = new Dictionary<string, object>(),
-				Persistent = ctx.GetClientConfiguration().PersistentDeliveryMode,
-				ContentType = Serializer.ContentType
+				var existingProps = ctx.GetBasicProperties();
+				if (existingProps != null)
+				{
+					return existingProps;
+				}
+
+				// RabbitMQ.Client 6.x: BasicProperties must be created via channel.CreateBasicProperties()
+				var channel = ctx.GetChannel();
+				if (channel != null)
+				{
+					var props = channel.CreateBasicProperties();
+					props.MessageId = Guid.NewGuid().ToString();
+					props.Headers = new Dictionary<string, object>();
+					props.Persistent = ctx.GetClientConfiguration().PersistentDeliveryMode;
+					props.ContentType = Serializer.ContentType;
+					return props;
+				}
+
+				// Fallback to SimpleBasicProperties if no channel available yet
+				return new SimpleBasicProperties
+				{
+					MessageId = Guid.NewGuid().ToString(),
+					Headers = new Dictionary<string, object>(),
+					Persistent = ctx.GetClientConfiguration().PersistentDeliveryMode,
+					ContentType = Serializer.ContentType
+				};
 			});
 		}
 

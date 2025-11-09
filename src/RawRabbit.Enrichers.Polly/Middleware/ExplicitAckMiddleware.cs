@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RawRabbit.Common;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
@@ -14,14 +14,11 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 
 		protected override async Task<Acknowledgement> AcknowledgeMessageAsync(IPipeContext context)
 		{
-			var policy = context.GetPolicy(PolicyKeys.MessageAcknowledge);
-			var result = await policy.ExecuteAsync(
-				action: () => Task.FromResult(base.AcknowledgeMessageAsync(context)),
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.PipeContext] = context
-				});
-			return await result;
+			// Polly 8.x: Updated to use ResiliencePipeline instead of IAsyncPolicy
+			var pipeline = context.GetPolicy(PolicyKeys.MessageAcknowledge);
+			var result = await pipeline.ExecuteAsync(
+				callback: async ct => await base.AcknowledgeMessageAsync(context));
+			return result;
 		}
 	}
 }

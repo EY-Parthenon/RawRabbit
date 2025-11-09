@@ -37,6 +37,8 @@ namespace RawRabbit.Pipe.Middleware
 		{
 			var consumer = ConsumeFunc(context);
 			var throttlingFunc = GetThrottlingFunc(context);
+			// RabbitMQ.Client 6.x: EventHandler<BasicDeliverEventArgs> signature unchanged
+			// BasicDeliverEventArgs.Body is now ReadOnlyMemory<byte> instead of byte[]
 			consumer.OnMessage((sender, args) =>
 			{
 				throttlingFunc(() => InvokeConsumePipeAsync(context, args, token), token);

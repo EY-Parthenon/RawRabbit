@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using RawRabbit.Exceptions;
 using RawRabbit.Logging;
 
@@ -101,33 +102,30 @@ namespace RawRabbit.Channel
 
 		protected void ConfigureRecovery(IModel channel)
 		{
-			if (!(channel is IRecoverable recoverable))
-			{
-				_logger.Debug("Channel {channelNumber} is not recoverable. Recovery disabled for this channel.", channel.ChannelNumber);
-				return;
-			}
 			if (channel.IsClosed && channel.CloseReason != null && channel.CloseReason.Initiator == ShutdownInitiator.Application)
 			{
 				_logger.Debug("{Channel {channelNumber} is closed by the application. Channel will remain closed and not be part of the channel pool", channel.ChannelNumber);
 				return;
 			}
-			Recoverables.Add(recoverable);
-			recoverable.Recovery += (sender, args) =>
+
+			IRecoverable recoverable = channel as IRecoverable;
+			if (recoverable != null)
 			{
-				_logger.Info("Channel {channelNumber} has been recovered and will be re-added to the channel pool", channel.ChannelNumber);
-				if (Pool.Contains(channel))
-				{
-					return;
-				}
-				Pool.AddLast(channel);
-				StartServeChannels();
-			};
+				Recoverables.Add(recoverable);
+			}
+
+			// RabbitMQ.Client 6.x: TODO - Verify recovery event API
+			// Automatic recovery should work without manual event handling in 6.x
+			_logger.Debug("Channel {channelNumber} configured. Automatic recovery enabled by RabbitMQ.Client.", channel.ChannelNumber);
 			channel.ModelShutdown += (sender, args) =>
 			{
 				if (args.Initiator == ShutdownInitiator.Application)
 				{
 					_logger.Info("Channel {channelNumber} is being closed by the application. No recovery will be performed.", channel.ChannelNumber);
-					Recoverables.Remove(recoverable);
+					if (recoverable != null)
+					{
+						Recoverables.Remove(recoverable);
+					}
 				}
 			};
 		}

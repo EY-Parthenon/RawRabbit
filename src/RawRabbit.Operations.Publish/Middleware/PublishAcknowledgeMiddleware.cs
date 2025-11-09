@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
@@ -28,11 +25,6 @@ namespace RawRabbit.Operations.Publish.Middleware
 		protected Func<IPipeContext, IModel> ChannelFunc;
 		protected Func<IPipeContext, bool> EnabledFunc;
 
-		protected static Dictionary<IModel, ConcurrentDictionary<ulong, TaskCompletionSource<ulong>>> ConfirmsDictionary =
-			new Dictionary<IModel, ConcurrentDictionary<ulong, TaskCompletionSource<ulong>>>();
-		protected static ConcurrentDictionary<IModel, object> ChannelLocks = new ConcurrentDictionary<IModel, object>();
-		protected static Dictionary<IModel, ulong> ChannelSequences = new Dictionary<IModel, ulong>();
-
 		public PublishAcknowledgeMiddleware(IExclusiveLock exclusive, PublishAcknowledgeOptions options = null)
 		{
 			_exclusive = exclusive;
@@ -43,36 +35,55 @@ namespace RawRabbit.Operations.Publish.Middleware
 
 		public override async Task InvokeAsync(IPipeContext context, CancellationToken token)
 		{
+			_logger.Info("PublishAcknowledgeMiddleware.InvokeAsync START");
 			var enabled = GetEnabled(context);
+			_logger.Info("Publisher acknowledgement enabled: {enabled}", enabled);
 			if (!enabled)
 			{
 				_logger.Debug("Publish Acknowledgement is disabled.");
 				await Next.InvokeAsync(context, token);
 				return;
 			}
+
 			var channel = GetChannel(context);
+			_logger.Info("Got channel from context: ChannelNumber={channelNumber}, NextPublishSeqNo={seqNo}", channel?.ChannelNumber, channel?.NextPublishSeqNo);
 
-			if (!PublishAcknowledgeEnabled(channel))
+			// Ensure publisher confirms are enabled on the channel
+			_exclusive.Execute(channel, _ =>
 			{
-				EnableAcknowledgement(channel, token);
-			}
-
-			var channelLock = ChannelLocks.GetOrAdd(channel, c => new object());
-			var ackTcs = new TaskCompletionSource<ulong>();
-
-			await _exclusive.ExecuteAsync(channelLock, o =>
-			{
-				var sequence = channel.NextPublishSeqNo;
-				SetupTimeout(context, sequence, ackTcs);
-				if (!GetChannelDictionary(channel).TryAdd(sequence, ackTcs))
+				if (!PublishAcknowledgeEnabled(channel))
 				{
-					_logger.Info("Unable to add ack '{publishSequence}' on channel {channelNumber}", sequence, channel.ChannelNumber);
+					_logger.Info("Enabling publisher confirms for channel {channelNumber}", channel.ChannelNumber);
+					channel.ConfirmSelect();
 				}
-				_logger.Info("Sequence {sequence} added to dictionary", sequence);
-
-				return Next.InvokeAsync(context, token);
 			}, token);
-			await ackTcs.Task;
+
+			// Invoke next middleware to publish the message
+			_logger.Info("Invoking next middleware (BasicPublish)");
+			await Next.InvokeAsync(context, token);
+
+			// Use WaitForConfirmsOrDie() to synchronously wait for broker acknowledgement
+			// This is more reliable than event-based approach with RabbitMQ.Client 6.x
+			var timeout = GetAcknowledgeTimeOut(context);
+			_logger.Info("Waiting for publisher confirmation with timeout {timeout:g}", timeout);
+
+			try
+			{
+				await Task.Run(() =>
+				{
+					_exclusive.Execute(channel, _ =>
+					{
+						channel.WaitForConfirmsOrDie(timeout);
+					}, token);
+				}, token);
+				_logger.Info("Publisher confirmation received successfully");
+			}
+			catch (Exception ex)
+			{
+				var message = $"The broker did not send a publish acknowledgement within {timeout:g}.";
+				_logger.Error(ex, "Publisher confirmation failed: {message}", message);
+				throw new PublishConfirmException(message, ex);
+			}
 		}
 
 		protected virtual TimeSpan GetAcknowledgeTimeOut(IPipeContext context)
@@ -94,89 +105,25 @@ namespace RawRabbit.Operations.Publish.Middleware
 		{
 			return EnabledFunc(context);
 		}
-
-		protected virtual ConcurrentDictionary<ulong, TaskCompletionSource<ulong>> GetChannelDictionary(IModel channel)
-		{
-			if (!ConfirmsDictionary.ContainsKey(channel))
-			{
-				ConfirmsDictionary.Add(channel, new ConcurrentDictionary<ulong, TaskCompletionSource<ulong>>());
-			}
-			return ConfirmsDictionary[channel];
-		}
-
-		protected virtual void EnableAcknowledgement(IModel channel, CancellationToken token)
-		{
-			_logger.Info("Setting 'Publish Acknowledge' for channel '{channelNumber}'", channel.ChannelNumber);
-			_exclusive.Execute(channel, c =>
-			{
-				if (PublishAcknowledgeEnabled(c))
-				{
-					return;
-				}
-				c.ConfirmSelect();
-				var dictionary = GetChannelDictionary(c);
-				c.BasicAcks += (sender, args) =>
-				{
-					Task.Run(() =>
-					{
-						if (args.Multiple)
-						{
-							foreach (var deliveryTag in dictionary.Keys.Where(k => k <= args.DeliveryTag).ToList())
-							{
-								if (!dictionary.TryRemove(deliveryTag, out var tcs))
-								{
-									continue;
-								}
-								if (!tcs.TrySetResult(deliveryTag))
-								{
-									continue;
-								}
-							}
-						}
-						else
-						{
-							_logger.Info("Received ack for {deliveryTag}", args.DeliveryTag);
-							if (!dictionary.TryRemove(args.DeliveryTag, out var tcs))
-							{
-								_logger.Warn("Unable to find ack tcs for {deliveryTag}", args.DeliveryTag);
-							}
-							tcs?.TrySetResult(args.DeliveryTag);
-						}
-					}, token);
-				};
-			}, token);
-		}
-
-		protected virtual void SetupTimeout(IPipeContext context, ulong sequence, TaskCompletionSource<ulong> ackTcs)
-		{
-			var timeout = GetAcknowledgeTimeOut(context);
-			Timer ackTimer = null;
-			_logger.Info("Setting up publish acknowledgement for {publishSequence} with timeout {timeout:g}", sequence, timeout);
-			ackTimer = new Timer(state =>
-			{
-				ackTcs.TrySetException(new PublishConfirmException($"The broker did not send a publish acknowledgement for message {sequence} within {timeout:g}."));
-				ackTimer?.Dispose();
-			}, null, timeout, new TimeSpan(-1));
-		}
-	}
-
-	public static class PublishAcknowledgePipeGetExtensions
-	{
-		public static TimeSpan GetPublishAcknowledgeTimeout(this IPipeContext context)
-		{
-			var fallback = context.GetClientConfiguration().PublishConfirmTimeout;
-			return context.Get(PublishKey.PublishAcknowledgeTimeout, fallback);
-		}
 	}
 }
 
 namespace RawRabbit
 {
+	public static class PublishAcknowledgePipeGetExtensions
+	{
+		public static TimeSpan GetPublishAcknowledgeTimeout(this IPipeContext context)
+		{
+			var fallback = context.GetClientConfiguration().PublishConfirmTimeout;
+			return context.Get(Operations.Publish.PublishKey.PublishAcknowledgeTimeout, fallback);
+		}
+	}
+
 	public static class PublishAcknowledgePipeUseExtensions
 	{
 		public static IPublishContext UsePublishAcknowledge(this IPublishContext context, TimeSpan timeout)
 		{
-			context.Properties.TryAdd(Operations.Publish.PublishKey.PublishAcknowledgeTimeout, timeout);
+			System.Collections.Generic.CollectionExtensions.TryAdd(context.Properties, Operations.Publish.PublishKey.PublishAcknowledgeTimeout, timeout);
 			return context;
 		}
 
@@ -188,4 +135,3 @@ namespace RawRabbit
 		}
 	}
 }
-

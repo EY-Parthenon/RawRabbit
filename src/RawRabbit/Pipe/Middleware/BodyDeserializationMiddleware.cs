@@ -30,7 +30,8 @@ namespace RawRabbit.Pipe.Middleware
 		{
 			Serializer = serializer;
 			MessageTypeFunc = options?.BodyTypeFunc ?? (context => context.GetMessageType());
-			BodyBytesFunc = options?.BodyFunc ?? (context =>context.GetDeliveryEventArgs()?.Body);
+			// RabbitMQ.Client 6.x: Body is now ReadOnlyMemory<byte>, must convert to byte[] using ToArray()
+			BodyBytesFunc = options?.BodyFunc ?? (context => context.GetDeliveryEventArgs()?.Body.ToArray());
 			PersistAction = options?.PersistAction ?? ((context, msg) => context.Properties.TryAdd(PipeKey.Message, msg));
 			BodyContentTypeFunc = options?.BodyContentTypeFunc ?? (context => context.GetDeliveryEventArgs()?.BasicProperties.ContentType);
 			ActivateContentTypeCheck = options?.ActivateContentTypeCheck ?? (context => context.GetContentTypeCheckActivated());

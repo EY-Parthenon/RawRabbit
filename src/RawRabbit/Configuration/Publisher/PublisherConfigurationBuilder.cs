@@ -58,7 +58,8 @@ namespace RawRabbit.Configuration.Publisher
 		{
 			if (Config.BasicProperties == null)
 			{
-				Config.BasicProperties = new BasicProperties();
+				// RabbitMQ.Client 6.x: BasicProperties is internal, use SimpleBasicProperties instead
+			Config.BasicProperties = new SimpleBasicProperties();
 			}
 			propAction?.Invoke(Config.BasicProperties);
 			return this;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using RabbitMQ.Client;
 using RawRabbit.Consumer;
 
@@ -29,7 +30,8 @@ namespace RawRabbit.Subscription
 				return;
 			}
 			QueueName = queueName;
-			ConsumerTag = basicConsumer.ConsumerTag;
+			// RabbitMQ.Client 6.x: ConsumerTag changed to ConsumerTags array
+			ConsumerTag = basicConsumer.ConsumerTags?.FirstOrDefault();
 		}
 
 		public void Dispose()

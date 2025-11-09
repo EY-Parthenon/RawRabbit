@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Channel.Abstraction;
 using RawRabbit.Configuration;
@@ -73,31 +74,11 @@ namespace RawRabbit.Channel
 				throw new ChannelAvailabilityException("Closed connection initiated by the Application. A new connection will not be created, and no channel can be created.");
 			}
 
-			if (!(Connection is IRecoverable recoverable))
-			{
-				_logger.Info("Connection is not recoverable");
-				Connection.Dispose();
-				throw new ChannelAvailabilityException("The non recoverable connection is closed. A channel can not be created.");
-			}
-
-			_logger.Debug("Connection is recoverable. Waiting for 'Recovery' event to be triggered. ");
-			var recoverTcs = new TaskCompletionSource<IConnection>();
-			token.Register(() => recoverTcs.TrySetCanceled());
-
-			EventHandler<EventArgs> completeTask = null;
-			completeTask = (sender, args) =>
-			{
-				if (recoverTcs.Task.IsCanceled)
-				{
-					return;
-				}
-				_logger.Info("Connection has been recovered!");
-				recoverTcs.TrySetResult(recoverable as IConnection);
-				recoverable.Recovery -= completeTask;
-			};
-
-			recoverable.Recovery += completeTask;
-			return await recoverTcs.Task;
+			// RabbitMQ.Client 6.x: TODO - Verify recovery event API
+			// For now, throw exception if connection is closed
+			_logger.Info("Connection is closed and non-recoverable");
+			Connection.Dispose();
+			throw new ChannelAvailabilityException("The connection is closed. A channel cannot be created.");
 		}
 
 		public void Dispose()

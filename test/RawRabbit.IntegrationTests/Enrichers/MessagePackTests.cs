@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MessagePack;
 using RawRabbit.Enrichers.MessagePack;
-using RawRabbit.Enrichers.ZeroFormatter;
 using RawRabbit.Instantiation;
 using Xunit;
 

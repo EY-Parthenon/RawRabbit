@@ -21,7 +21,8 @@ namespace RawRabbit
 			.Use<BodyDeserializationMiddleware>(new MessageDeserializationOptions
 			{
 				BodyTypeFunc = context => context.GetMessageType(),
-				BodyFunc = context => context.GetBasicGetResult()?.Body
+				// RabbitMQ.Client 6.x: BasicGetResult.Body is now ReadOnlyMemory<byte>, must convert to byte[]
+				BodyFunc = context => context.GetBasicGetResult()?.Body.ToArray()
 			})
 			.Use<AckableResultMiddleware>(new AckableResultOptions
 			{

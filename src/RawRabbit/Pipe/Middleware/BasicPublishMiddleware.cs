@@ -67,6 +67,7 @@ namespace RawRabbit.Pipe.Middleware
 
 		protected virtual void BasicPublish(IModel channel, string exchange, string routingKey, bool mandatory, IBasicProperties basicProps, byte[] body, IPipeContext context)
 		{
+			// RabbitMQ.Client 6.x: BasicPublish accepts byte[] or ReadOnlyMemory<byte> - using byte[] is fine
 			channel.BasicPublish(
 				exchange: exchange,
 				routingKey: routingKey,

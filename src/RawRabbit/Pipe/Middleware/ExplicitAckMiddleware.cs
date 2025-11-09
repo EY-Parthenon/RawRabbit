@@ -80,6 +80,7 @@ namespace RawRabbit.Pipe.Middleware
 				{
 					var recoverTsc = new TaskCompletionSource<bool>();
 
+					// RabbitMQ.Client 6.x: IRecoverable.Recovery event signature unchanged (EventHandler<EventArgs>)
 					EventHandler<EventArgs> OnRecover = null;
 					OnRecover = (sender, args) =>
 					{
@@ -88,7 +89,7 @@ namespace RawRabbit.Pipe.Middleware
 					};
 					recoverable.Recovery += OnRecover;
 					await recoverTsc.Task;
-					
+
 				}
 				return new Ack();
 			}
@@ -114,16 +115,19 @@ namespace RawRabbit.Pipe.Middleware
 
 		protected virtual void HandleAck(Ack ack, IModel channel, BasicDeliverEventArgs deliveryArgs)
 		{
+			// RabbitMQ.Client 6.x: BasicAck method unchanged
 			channel.BasicAck(deliveryArgs.DeliveryTag, false);
 		}
 
 		protected virtual void HandleNack(Nack nack, IModel channel, BasicDeliverEventArgs deliveryArgs)
 		{
+			// RabbitMQ.Client 6.x: BasicNack method unchanged
 			channel.BasicNack(deliveryArgs.DeliveryTag, false, nack.Requeue);
 		}
 
 		protected virtual void HandleReject(Reject reject, IModel channel, BasicDeliverEventArgs deliveryArgs)
 		{
+			// RabbitMQ.Client 6.x: BasicReject method unchanged
 			channel.BasicReject(deliveryArgs.DeliveryTag, reject.Requeue);
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using RabbitMQ.Client.Framing;
+using RawRabbit.Common;
 using RawRabbit.Configuration.BasicPublish;
 using RawRabbit.Configuration.Exchange;
 
@@ -42,7 +43,8 @@ namespace RawRabbit.Configuration.Publisher
 				Exchange = _exchange.Create(exchangeName),
 				ExchangeName = exchangeName,
 				RoutingKey = routingKey,
-				BasicProperties = new BasicProperties()
+				// RabbitMQ.Client 6.x: BasicProperties is internal, use SimpleBasicProperties instead
+			BasicProperties = new SimpleBasicProperties()
 			};
 		}
 	}

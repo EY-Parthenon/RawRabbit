@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using RawRabbit.Common;
@@ -17,17 +17,11 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 
 		protected override Task DeclareQueueAsync(QueueDeclaration queue, IPipeContext context, CancellationToken token)
 		{
-			var policy = context.GetPolicy(PolicyKeys.QueueDeclare);
-			return policy.ExecuteAsync(
-				action: ct => base.DeclareQueueAsync(queue, context, ct),
-				cancellationToken: token,
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.TopologyProvider] = Topology,
-					[RetryKey.QueueDeclaration] = queue,
-					[RetryKey.PipeContext] = context,
-					[RetryKey.CancellationToken] = token,
-				});
+			// Polly 8.x: Updated to use ResiliencePipeline instead of IAsyncPolicy
+			var pipeline = context.GetPolicy(PolicyKeys.QueueDeclare);
+			return pipeline.ExecuteAsync(
+				callback: async ct => await base.DeclareQueueAsync(queue, context, ct),
+				cancellationToken: token).AsTask();
 		}
 	}
 }

@@ -102,7 +102,7 @@ namespace RawRabbit.Compatibility.Legacy
 				Exchange = exchangeCfg,
 				ExchangeName = config.Exchange.ExchangeName,
 				RoutingKey = config.RoutingKey,
-				BasicProperties = new BasicProperties(),
+				BasicProperties = new SimpleBasicProperties(),
 				Mandatory = config.BasicReturn != null,
 				ReturnCallback = config.BasicReturn
 			};
@@ -200,7 +200,7 @@ namespace RawRabbit.Compatibility.Legacy
 				{
 					Exchange = exchangeCfg,
 					ExchangeName = config.Exchange.ExchangeName,
-					BasicProperties = new BasicProperties(),
+					BasicProperties = new SimpleBasicProperties(),
 					RoutingKey = config.RoutingKey,
 					Mandatory = false
 				},

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using RawRabbit.Pipe;
@@ -13,15 +13,11 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 
 		protected override Task InvokeMessageHandler(IPipeContext context, CancellationToken token)
 		{
-			var policy = context.GetPolicy(PolicyKeys.HandlerInvocation);
-			return policy.ExecuteAsync(
-				action: ct => base.InvokeMessageHandler(context, ct),
-				cancellationToken: token,
-				contextData: new Dictionary<string, object>
-				{
-					[RetryKey.PipeContext] = context,
-					[RetryKey.CancellationToken] = token
-				});
+			// Polly 8.x: Updated to use ResiliencePipeline instead of IAsyncPolicy
+			var pipeline = context.GetPolicy(PolicyKeys.HandlerInvocation);
+			return pipeline.ExecuteAsync(
+				callback: async ct => await base.InvokeMessageHandler(context, ct),
+				cancellationToken: token).AsTask();
 		}
 	}
 }

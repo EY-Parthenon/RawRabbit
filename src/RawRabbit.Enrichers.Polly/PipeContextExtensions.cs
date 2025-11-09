@@ -5,16 +5,18 @@ namespace RawRabbit.Enrichers.Polly
 {
 	public static class PipeContextExtensions
 	{
-		public static Policy GetPolicy(this IPipeContext context, string policyName = null)
+		// Polly 8.x: Updated from Policy to ResiliencePipeline
+		public static ResiliencePipeline GetPolicy(this IPipeContext context, string policyName = null)
 		{
-			var fallback = context.Get<Policy>(PolicyKeys.DefaultPolicy);
+			var fallback = context.Get<ResiliencePipeline>(PolicyKeys.DefaultPolicy);
 			return context.Get(policyName, fallback);
 		}
 
-		public static TPipeContext UsePolicy<TPipeContext>(this TPipeContext context, Policy policy, string policyName = null) where TPipeContext : IPipeContext
+		// Polly 8.x: Updated from Policy to ResiliencePipeline
+		public static TPipeContext UsePolicy<TPipeContext>(this TPipeContext context, ResiliencePipeline pipeline, string policyName = null) where TPipeContext : IPipeContext
 		{
 			policyName = policyName ?? PolicyKeys.DefaultPolicy;
-			context.Properties.TryAdd(policyName, policy);
+			context.Properties.TryAdd(policyName, pipeline);
 			return context;
 		}
 	}

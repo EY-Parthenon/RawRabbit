@@ -63,6 +63,7 @@ namespace RawRabbit.Pipe.Middleware
 
 		protected virtual void BasicConsume(IBasicConsumer consumer, ConsumeConfiguration config)
 		{
+			// RabbitMQ.Client 6.x: BasicConsume and BasicQos methods unchanged
 			_factory.ConfigureConsume(consumer, config);
 		}
 	}

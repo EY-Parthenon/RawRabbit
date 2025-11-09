@@ -66,7 +66,8 @@ namespace RawRabbit.Operations.Request.Middleware
 		protected virtual byte[] GetMessageBody(IPipeContext context)
 		{
 			var deliveryArgs = GetDeliverEventArgs(context);
-			return deliveryArgs?.Body ?? new byte[0];
+			// RabbitMQ.Client 6.x: Body is now ReadOnlyMemory<byte>, must convert to byte[]
+			return deliveryArgs?.Body.ToArray() ?? new byte[0];
 		}
 
 		protected virtual ExceptionInformation GetExceptionInfo(IPipeContext context)

@@ -78,6 +78,7 @@ namespace RawRabbit.Middleware
 			await TopologyProvider.BindQueueAsync(deadLetterQueueName, deadLeterExchangeName, deliveryArgs.RoutingKey);
 			using (var publishChannel = await ChannelFactory.CreateChannelAsync(token))
 			{
+				// RabbitMQ.Client 6.x: Body is ReadOnlyMemory<byte>, but BasicPublish accepts both byte[] and ReadOnlyMemory<byte>
 				publishChannel.BasicPublish(deadLeterExchangeName, deliveryArgs.RoutingKey, false, deliveryArgs.BasicProperties, deliveryArgs.Body);
 			}
 			await TopologyProvider.UnbindQueueAsync(deadLetterQueueName, deadLeterExchangeName, deliveryArgs.RoutingKey);

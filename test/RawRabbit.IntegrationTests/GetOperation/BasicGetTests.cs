@@ -55,7 +55,7 @@ namespace RawRabbit.IntegrationTests.GetOperation
 
 				/* Assert */
 				Assert.NotNull(ackable);
-				Assert.NotEmpty(ackable.Content.Body);
+				Assert.True(ackable.Content.Body.Length > 0);
 				TestChannel.QueueDelete(queueName);
 				TestChannel.ExchangeDelete(exchangeName);
 			}

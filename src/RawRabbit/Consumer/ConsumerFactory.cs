@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
@@ -62,6 +63,7 @@ namespace RawRabbit.Consumer
 			{
 				channel = await GetOrCreateChannelAsync(token);
 			}
+			// RabbitMQ.Client 6.x: EventingBasicConsumer constructor unchanged, still accepts IModel
 			return new EventingBasicConsumer(channel);
 		}
 
@@ -131,16 +133,23 @@ namespace RawRabbit.Consumer
 			}
 			var cancelTcs = new TaskCompletionSource<string>();
 			token.Register(() => cancelTcs.TrySetCanceled());
-			var tag = eventConsumer.ConsumerTag;
+			// RabbitMQ.Client 6.x: ConsumerTag changed to ConsumerTags array
+			var tags = eventConsumer.ConsumerTags;
+			var primaryTag = tags?.FirstOrDefault();
+			if (primaryTag == null)
+			{
+				throw new InvalidOperationException("Consumer has no consumer tags");
+			}
 			consumer.ConsumerCancelled += (sender, args) =>
 			{
-				if (args.ConsumerTag != tag)
+				// RabbitMQ.Client 6.x: args.ConsumerTag changed to args.ConsumerTags array
+				if (args.ConsumerTags == null || !args.ConsumerTags.Contains(primaryTag))
 				{
 					return;
 				}
-				cancelTcs.TrySetResult(args.ConsumerTag);
+				cancelTcs.TrySetResult(primaryTag);
 			};
-			consumer.Model.BasicCancel(eventConsumer.ConsumerTag);
+			consumer.Model.BasicCancel(primaryTag);
 			return cancelTcs.Task;
 		}
 

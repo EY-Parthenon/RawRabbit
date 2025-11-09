@@ -14,7 +14,7 @@ namespace RawRabbit.IntegrationTests.DependencyInjection
 			/* Setup */
 			var kernel = new StandardKernel();
 			kernel.RegisterRawRabbit();
-			
+
 			/* Test */
 			var client = kernel.Get<IBusClient>();
 			var instanceFactory = kernel.Get<IInstanceFactory>();

@@ -47,7 +47,9 @@ namespace RawRabbit.Configuration.BasicPublish
 		{
 			return new BasicPublishConfiguration
 			{
-				BasicProperties = new BasicProperties()
+				// RabbitMQ.Client 6.x: BasicProperties is internal, must be created via channel.CreateBasicProperties()
+			// Will be created in middleware when channel is available
+			BasicProperties = null
 			};
 		}
 
@@ -68,7 +70,8 @@ namespace RawRabbit.Configuration.BasicPublish
 
 		protected virtual IBasicProperties GetBasicProperties(Type type)
 		{
-			return new BasicProperties
+			// RabbitMQ.Client 6.x: BasicProperties is internal, use SimpleBasicProperties instead
+		return new SimpleBasicProperties
 			{
 				Type = type.GetUserFriendlyName(),
 				MessageId = Guid.NewGuid().ToString(),
