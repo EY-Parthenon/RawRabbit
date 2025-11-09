@@ -30,6 +30,7 @@ These documents serve as:
 ### Status Reports
 - **EXECUTIVE-SUMMARY.md** - High-level project summary
 - **FINAL-STATUS.md** - Final project status report
+- **MODERNIZATION-STATUS.md** - Detailed modernization status tracking
 - **HISTORY.md** - Project history and timeline
 - **START-HERE.md** - Project entry point (historical)
 
