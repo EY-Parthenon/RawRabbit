@@ -3,9 +3,11 @@
   <PropertyGroup>
     <Description>Enrich the BusClient with a RespondAsync, the server part of RPC.</Description>
     <AssemblyTitle>RawRabbit.Operations.Respond</AssemblyTitle>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>3.0.0</VersionPrefix>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <Authors>pardahlman;enrique-avalon</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>RawRabbit.Operations.Respond</AssemblyName>
     <PackageId>RawRabbit.Operations.Respond</PackageId>
     <PackageTags>rabbitmq;rawrabbit;operation;respond</PackageTags>
@@ -24,9 +26,5 @@
     <ProjectReference Include="..\RawRabbit\RawRabbit.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
 
 </Project>

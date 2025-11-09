@@ -3,9 +3,11 @@
   <PropertyGroup>
     <Description>Wire up RawRabbit with Ninject!</Description>
     <AssemblyTitle>RawRabbit.DependencyInjection.Ninject</AssemblyTitle>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>3.0.0</VersionPrefix>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <Authors>par.dahlman;Joshua Barron</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>RawRabbit.DependencyInjection.Ninject</AssemblyName>
     <PackageId>RawRabbit.DependencyInjection.Ninject</PackageId>
     <PackageTags>rabbitmq;rawrabbit;ninject;ioc</PackageTags>
@@ -27,14 +29,8 @@
     <ProjectReference Include="..\RawRabbit\RawRabbit.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
-    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <PackageReference Include="Ninject" Version="3.2.2" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="3.3.6" />
   </ItemGroup>
 
 </Project>

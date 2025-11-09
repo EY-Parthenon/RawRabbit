@@ -3,9 +3,11 @@
   <PropertyGroup>
     <Description>Wire up RawRabbit with Autfac!</Description>
     <AssemblyTitle>RawRabbit.DependencyInjection.Autofac</AssemblyTitle>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>3.0.0</VersionPrefix>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <Authors>par.dahlman</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>RawRabbit.DependencyInjection.Autofac</AssemblyName>
     <PackageId>RawRabbit.DependencyInjection.Autofac</PackageId>
     <PackageTags>rabbitmq;rawrabbit;autofac;ioc</PackageTags>
@@ -28,12 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.1.0" />
+    <PackageReference Include="Autofac" Version="8.1.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
 
 </Project>
