@@ -81,9 +81,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Build errors with modern .NET SDK
-- Compatibility with Visual Studio 2022
-- Compatibility with latest RabbitMQ server versions
+- ✅ **RabbitMQ.Client 6.x compatibility** - All code migrated to RabbitMQ.Client 6.8.1 APIs
+  - Fixed `IBasicProperties` interface changes
+  - Fixed `CreateConnection` signature with `clientProvidedName`
+  - Fixed automatic recovery event handling with `IRecoverable.Recovery`
+  - Fixed publisher confirms using new BasicAcks event pattern
+- ✅ **Polly 8.x compatibility** - All code migrated to Polly 8.4.2 ResiliencePipeline APIs
+  - Migrated from `Policy` to `ResiliencePipeline`
+  - Updated all middleware to use new resilience strategies
+  - Fixed channel factory retry logic
+- ✅ **Recovery event handling** - Fixed all 3 recovery tests to achieve 100% unit test pass rate
+  - `ChannelFactoryTests.Should_Wait_For_Connection_To_Recover_Before_Returning_Channel`
+  - `ChannelPoolTests.Should_Not_Serve_Closed_Channels`
+  - `ChannelPoolTests.Should_Serve_Recovered_Channels`
+- ✅ **Channel pool management** - Implemented RecentlyRecovered tracking for proper recovery handling
+- ✅ **Build errors** with modern .NET SDK
+- ✅ **Compatibility** with Visual Studio 2022
+- ✅ **Compatibility** with latest RabbitMQ server versions
 
 ### Testing
 
@@ -91,7 +105,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Moq**: Updated from `4.7.137` → `4.20.72`
 - **Microsoft.NET.Test.Sdk**: Updated from `15.0.0-preview` → `17.11.1`
 - **BenchmarkDotNet**: Updated from `0.10.3` → `0.14.0`
-- All 156+ tests need to be validated on .NET 8 (tests not executed during migration)
+- ✅ **100% unit test pass rate** - All 156 tests passing on .NET 8.0
+- ✅ **Integration tests** - Validated with Docker RabbitMQ instance
 
 ---
 
