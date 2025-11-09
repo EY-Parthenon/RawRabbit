@@ -20,7 +20,7 @@ ADRs follow the [MADR 3.0.0 format](https://adr.github.io/madr/) (Markdown Archi
 ## How to Create a New ADR
 
 1. Copy the [MADR template](https://github.com/adr/madr/blob/main/template/adr-template.md)
-2. Number it sequentially (e.g., `006-my-decision.md`)
+2. Number it sequentially (e.g., `007-my-decision.md`)
 3. Fill in all sections
 4. Update this README index
 5. Commit and push
