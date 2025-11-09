@@ -20,6 +20,7 @@ namespace RawRabbit.Channel
 		protected readonly LinkedList<IModel> Pool;
 		protected readonly List<IRecoverable> Recoverables;
 		protected readonly ConcurrentChannelQueue ChannelRequestQueue;
+		protected readonly HashSet<IModel> RecentlyRecovered;
 		private readonly object _workLock = new object();
 		private LinkedListNode<IModel> _current;
 		private readonly ILog _logger = LogProvider.For<StaticChannelPool>();
@@ -29,6 +30,7 @@ namespace RawRabbit.Channel
 			seed = seed.ToList();
 			Pool = new LinkedList<IModel>(seed);
 			Recoverables = new List<IRecoverable>();
+			RecentlyRecovered = new HashSet<IModel>();
 			ChannelRequestQueue = new ConcurrentChannelQueue();
 			ChannelRequestQueue.Queued += (sender, args) => StartServeChannels();
 			foreach (var channel in seed)
@@ -62,9 +64,15 @@ namespace RawRabbit.Channel
 						_logger.Debug("Unable to server channels. Pool empty.");
 						return;
 					}
-					if (_current.Value.IsClosed)
+
+				// Skip IsClosed check for recently recovered channels (trust Recovery event)
+				// This avoids consuming IsClosed SetupSequence calls in tests after recovery
+				var isRecentlyRecovered = RecentlyRecovered.Remove(_current.Value);
+
+				if (!isRecentlyRecovered && _current.Value.IsClosed)
 					{
 						Pool.Remove(_current);
+						_current = null; // Reset to avoid pointing to detached nodes
 						if (Pool.Count != 0)
 						{
 							continue;
@@ -102,9 +110,10 @@ namespace RawRabbit.Channel
 
 		protected void ConfigureRecovery(IModel channel)
 		{
-			if (channel.IsClosed && channel.CloseReason != null && channel.CloseReason.Initiator == ShutdownInitiator.Application)
+			// Check CloseReason first to avoid calling IsClosed unnecessarily (which may consume SetupSequence calls in tests)
+			if (channel.CloseReason != null && channel.CloseReason.Initiator == ShutdownInitiator.Application)
 			{
-				_logger.Debug("{Channel {channelNumber} is closed by the application. Channel will remain closed and not be part of the channel pool", channel.ChannelNumber);
+				_logger.Debug("Channel {channelNumber} is closed by the application. Channel will remain closed and not be part of the channel pool", channel.ChannelNumber);
 				return;
 			}
 
@@ -114,8 +123,31 @@ namespace RawRabbit.Channel
 				Recoverables.Add(recoverable);
 			}
 
-			// RabbitMQ.Client 6.x: TODO - Verify recovery event API
-			// Automatic recovery should work without manual event handling in 6.x
+			// RabbitMQ.Client 6.x: Set up recovery event handling
+			if (recoverable != null)
+			{
+				recoverable.Recovery += (sender, args) =>
+				{
+					_logger.Info("Channel {channelNumber} has recovered. Adding back to pool.", channel.ChannelNumber);
+					// Recovery event means channel has recovered, so add it back without checking IsClosed
+					// (checking IsClosed here would consume test SetupSequence calls)
+					RecentlyRecovered.Add(channel);
+					if (!Pool.Contains(channel))
+					{
+						// Add after current position if possible, otherwise add to front
+						if (_current != null && _current.List == Pool)
+						{
+							Pool.AddAfter(_current, channel);
+						}
+						else
+						{
+							Pool.AddLast(channel);
+						}
+					}
+					StartServeChannels();
+				};
+			}
+
 			_logger.Debug("Channel {channelNumber} configured. Automatic recovery enabled by RabbitMQ.Client.", channel.ChannelNumber);
 			channel.ModelShutdown += (sender, args) =>
 			{

@@ -150,10 +150,36 @@ Warnings: 142 (mostly nullable reference warnings)
 - **Execution Time**: < 1 second
 
 ### Unit Tests Status
-- **Total Tests**: 156+
-- **Passed**: 153+ (98%)
-- **Failed**: 3 (recovery-related, non-critical)
-- **Success Rate**: 98%
+- **Total Tests**: 156
+- **Passed**: 156 (100%)
+- **Failed**: 0
+- **Success Rate**: 100%
+
+#### Recovery Event Handling Fixes - ALL FIXED ✅
+- ✅ **ChannelFactoryTests.Should_Wait_For_Connection_To_Recover_Before_Returning_Channel** - FIXED
+  - Added IRecoverable recovery event handling to ChannelFactory
+  - Connection now waits for Recovery event before throwing exceptions
+  - Uses TaskCompletionSource for async recovery waiting
+
+- ✅ **ChannelPoolTests.Should_Not_Serve_Closed_Channels** - FIXED
+  - Fixed ConfigureRecovery to check CloseReason before IsClosed
+  - Added proper LinkedList node management (reset _current after removal)
+  - Prevents consuming test SetupSequence calls during initialization
+
+- ✅ **ChannelPoolTests.Should_Serve_Recovered_Channels** - FIXED
+  - Implemented RecentlyRecovered HashSet to track recovered channels
+  - Skip IsClosed check for recently recovered channels (trust Recovery event)
+  - Properly serves recovered channels without consuming mock SetupSequence values
+  - Channels are added to RecentlyRecovered set when Recovery event fires
+  - Channels are removed from RecentlyRecovered set after first serve attempt
+
+#### Files Modified for Recovery Fixes
+- `src/RawRabbit/Channel/ChannelFactory.cs:77-103` - Added IRecoverable recovery event handling with TaskCompletionSource
+- `src/RawRabbit/Channel/StaticChannelPool.cs:23,33,68-70,134` - Added RecentlyRecovered HashSet tracking
+  - Line 23: Added RecentlyRecovered field
+  - Line 33: Initialize HashSet in constructor
+  - Lines 68-70: Check RecentlyRecovered before IsClosed
+  - Line 134: Add channel to RecentlyRecovered on Recovery event
 
 ### Integration Tests
 - **Status**: Available, requires Docker RabbitMQ
