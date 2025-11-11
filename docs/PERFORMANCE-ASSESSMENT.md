@@ -116,13 +116,23 @@
    - No timeout issues observed
    - Publisher confirms working efficiently
 
-### Pending ⏳ (Optional)
+### Ready to Run ✅ (Optional)
 
-1. **Detailed Benchmarking**: ⏳
-   - **Status**: Not yet performed
-   - **Requirement**: Extended RabbitMQ test environment
+1. **Detailed Benchmarking**: ✅ **READY**
+   - **Status**: Build fixed, ready to execute
+   - **Requirement**: Extended RabbitMQ test environment (5-10 min per benchmark)
    - **Tool**: BenchmarkDotNet (test/RawRabbit.PerformanceTest/)
-   - **Estimated Effort**: 0.5-1 day
+   - **Build Status**: ✅ SUCCESS (compilation errors fixed)
+   - **How to Run**:
+     ```bash
+     # Via xUnit (recommended)
+     dotnet test test/RawRabbit.PerformanceTest/
+
+     # Via BenchmarkDotNet CLI
+     cd test/RawRabbit.PerformanceTest
+     dotnet run -c Release
+     ```
+   - **Estimated Runtime**: 15-30 minutes (all benchmarks)
    - **Priority**: LOW (optional for production release)
 
 2. **Load Testing**: ⏳
@@ -320,10 +330,17 @@ RabbitMQ Operations: Working efficiently
 ### Optional Performance Work
 
 **Post-Release Enhancements** (Optional):
-1. Run detailed BenchmarkDotNet suite (0.5-1 day)
-2. Load testing in production-like environment (1-2 days)
-3. Optimize hot paths if benchmarks reveal opportunities
-4. Consider System.Text.Json migration for even better performance
+1. ✅ **Performance test build fixed** - Ready to run when needed
+2. Run detailed BenchmarkDotNet suite (15-30 minutes execution)
+3. Load testing in production-like environment (1-2 days)
+4. Optimize hot paths if benchmarks reveal opportunities
+5. Consider System.Text.Json migration for even better performance
+
+**Performance Test Status**:
+- ✅ Build compilation errors fixed (BenchmarkDotNet 0.14.0 compatibility)
+- ✅ Ready to execute anytime
+- ✅ Requires RabbitMQ instance (already available)
+- ⏳ Execution pending (15-30 min runtime)
 
 **Priority**: **LOW** - Performance is acceptable based on:
 - .NET 8.0 known improvements
